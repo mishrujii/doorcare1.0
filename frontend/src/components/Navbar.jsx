@@ -8,7 +8,7 @@ function Navbar() {
       <Link to="/">
         <span>CHUTMASTER</span>
       </Link>
-      <button
+      <div
         onClick={() => setLoginOptions((prev) => !prev)}
         className="bg-purple-400 rounded-2xl px-2 py-1 hover:cursor-pointer relative"
       >
@@ -30,7 +30,7 @@ function Navbar() {
             </Link>
           </div>
         )}
-      </button>
+      </div>
     </div>
   );
 }

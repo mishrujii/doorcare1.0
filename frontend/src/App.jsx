@@ -22,7 +22,7 @@ function App() {
         <Route path="/patient-login" element={<PatientLoginPage />} />
         <Route path="/doctor-login" element={<DoctorLoginPage />} />
         <Route path="/admin-login" element={<AdminLoginPage />} />
-        <Route path="/patient-signup" element={<PatientSignup />} />
+        <Route path="/patient/signup" element={<PatientSignup />} />
         <Route path="/doctor-signup" element={<DoctorSignup />} />
         <Route path="/doctor-verification-form" element={<DoctorVerifyPage/>}/>
         <Route path="/patient-dashboard" element={<PatientDashBoardPage/>}/>

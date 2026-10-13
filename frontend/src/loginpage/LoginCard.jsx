@@ -11,7 +11,7 @@ function LoginCard({user}) {
               <button className="border mt-2 px-2  rounded-2xl bg-pink-400 hover:cursor-pointer" type="submit">login</button>
             </Link>
             {user!=='admin' &&  (
-              <Link to={user==='patient'?'/patient-signup':'/doctor-signup'} >
+              <Link to={user==='patient'?'/patient/signup':'/doctor-signup'} >
               <button className="mt-2 text-xs text-blue-700 hover:cursor-pointer">new here? sign up!</button>
              </Link>
             )}

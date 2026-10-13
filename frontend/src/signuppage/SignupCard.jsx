@@ -93,7 +93,7 @@ function SignupCard({ user }) {
           />
         </div>
         <div className="mx-auto">
-          <Link to={user === "doctor" ? "/doctor-verification-form" : null}>
+          <Link to={user === "doctor" ? "/doctor-verification-form" : '/'}>
             <button
               type="submit"
               className="bg-purple-300 px-2 rounded-2xl hover:cursor-pointer"
