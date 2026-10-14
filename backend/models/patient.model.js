@@ -25,7 +25,7 @@ const patientSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    verificationId: {
+    image: {
         type: String,
         required: true
     },

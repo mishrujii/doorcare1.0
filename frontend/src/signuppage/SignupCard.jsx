@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 
 function SignupCard({ user }) {
+ 
   return (
     <div>
       <form
@@ -16,14 +17,17 @@ function SignupCard({ user }) {
             className="border pl-1 rounded-md"
             type="text"
             id="fullName"
+            name="name"
             placeholder="enter your full name"
           />
         </div>
         <div>
-          <label htmlFor="username">Username: </label>
+          <label htmlFor="username1">Username: </label>
           <input
+            id="username1"
             className="border pl-1 rounded-md"
             type="text"
+            name="username"
             placeholder="enter username"
           />
         </div>
@@ -33,31 +37,37 @@ function SignupCard({ user }) {
             className="border rounded-md pl-1 text-gray-500 hover:cursor-pointer"
             type="date"
             id="DOB"
+            name="DOB"
           />
         </div>
         <div>
-          <label htmlFor="email">E-Mail: </label>
+          <label htmlFor="email1">E-Mail: </label>
           <input
             className="border pl-1 rounded-md"
             type="email"
-            id="email"
+            id="email1"
             placeholder="enter your gmail"
+            name="email"
           />
         </div>
         <div>
           <label htmlFor="contact">Contact: </label>
           <input
+            id="contact"
             className="border pl-1 rounded-md"
             type="number"
             placeholder="enter contact"
+            name="contact"
           />
         </div>
         <div>
-          <label htmlFor="address">Address: </label>
+          <label htmlFor="address1">Address: </label>
           <input
+            id="address1"
             className="border pl-1 rounded-md w-100"
             type="text"
             placeholder="enter full address"
+            name="address"
           />
         </div>
         {user === "patient" ? (
@@ -70,6 +80,7 @@ function SignupCard({ user }) {
                 className="border pl-1 rounded-md text-gray-500 hover:cursor-pointer"
                 type="file"
                 id="verification"
+                name= "image"
               />
             </div>
             <div>
@@ -78,6 +89,7 @@ function SignupCard({ user }) {
                 className="border pl-1 rounded-md text-gray-500 hover:cursor-pointer"
                 type="file"
                 id="reports"
+                name="reports"
               />
             </div>
           </>
@@ -90,6 +102,7 @@ function SignupCard({ user }) {
             type="password"
             id="password"
             placeholder="create new password"
+            name="password"
           />
         </div>
         <div className="mx-auto">

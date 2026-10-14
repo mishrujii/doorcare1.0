@@ -2,6 +2,7 @@ import express from 'express'
 import connectDB from './db.js'
 import dotenv from 'dotenv'
 import patientRouter from './routers/patient.routes.js'
+import upload from './middleware/multer.middleware.js'
 
 dotenv.config()
 
