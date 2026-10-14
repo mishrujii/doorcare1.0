@@ -17,4 +17,20 @@ const signupPatient = async (req,res)=>{
     res.send("user created")
 }
 
-export default signupPatient
+const loginPatient = async (req,res)=>{
+    const {username, password} = req.body
+    const user = await patientModel.findOne({username})
+    if(user){
+        if(user.password === password){
+            console.log("login successful")
+        }
+        else{
+            console.log("incorrect password")
+        }
+    }
+    else{
+        console.log("invalid username")
+    }
+}
+
+export {signupPatient, loginPatient}
