@@ -73,14 +73,14 @@ function SignupCard({ user }) {
         {user === "patient" ? (
           <>
             <div>
-              <label className="" htmlFor="verification">
-                Senior Citizen/PWD Id:{" "}
+              <label className="" htmlFor="verificationId">
+                Senior Citizen/PWD Id:
               </label>
               <input
                 className="border pl-1 rounded-md text-gray-500 hover:cursor-pointer"
                 type="file"
-                id="verification"
-                name= "image"
+                id="verificationId"
+                name= "verificationId"
               />
             </div>
             <div>

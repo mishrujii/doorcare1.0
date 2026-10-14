@@ -1,12 +1,12 @@
 import patientModel from "../models/patient.model.js"
 import imageKit from "../services/cloud.js"
 
-const signupPatient = async (req,res)=>{
+export const patientSignup = async (req,res)=>{
     const {name, username, email, DOB, password, contact, address} = req.body
     const verificationId = await imageKit(req.file)
 
     try{await patientModel.create({
-        name, email, username, DOB, password, contact, address, image : verificationId.url
+        name, email, username, DOB, password, contact, address, verificationId : verificationId.url
         
     })}
     catch(error){
@@ -17,7 +17,7 @@ const signupPatient = async (req,res)=>{
     res.send("user created")
 }
 
-const loginPatient = async (req,res)=>{
+export const patientLogin = async (req,res)=>{
     const {username, password} = req.body
     const user = await patientModel.findOne({username})
     if(user){
@@ -33,4 +33,3 @@ const loginPatient = async (req,res)=>{
     }
 }
 
-export {signupPatient, loginPatient}

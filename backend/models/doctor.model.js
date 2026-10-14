@@ -31,31 +31,31 @@ const doctorSchema = mongoose.Schema({
     },
     degree: {
         type: String,
-        required: true
+        // required: true
     },
     institue: {
         type: String,
-        required: true
+        // required: true
     },
     gradYear: {
         type: String,
-        required: true
+        // required: true
     },
     experience: {
         type: Number,
-        required: true
+        // required: true
     },
     medicalRegistrationNumber: {
         type: Number,
-        required: true
+        // required: true
     },
     registrationCertificate: {
         type: String,
-        required: true
+        // required: true
     },
     specialization: {
         type: String,
-        required: true
+        // required: true
     },
     fee: {
         type: Number,
