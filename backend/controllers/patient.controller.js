@@ -33,3 +33,8 @@ export const patientLogin = async (req,res)=>{
     }
 }
 
+export const fetchPatientsList = async (req,res)=>{
+    const patients = await patientModel.find()
+    res.status(200).json(patients)
+}
+
