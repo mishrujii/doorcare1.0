@@ -1,20 +1,16 @@
 import patientModel from "../models/patient.model.js"
-import imageKit from "../services/cloud.js"
+import uploadToCloudinary from '../services/cloud.js'
 
 export const patientSignup = async (req,res)=>{
     const {name, username, email, DOB, password, contact, address} = req.body
-    const verificationId = await imageKit(req.file)
+    const image = await uploadToCloudinary(req.files.verificationId[0])
 
-    try{await patientModel.create({
-        name, email, username, DOB, password, contact, address, verificationId : verificationId.url
+    await patientModel.create({
+        name, email, username, DOB, password, contact, address, verificationId : image.secure_url
         
-    })}
-    catch(error){
-        console.log(error);
-        
-    }
-
+    })
     res.send("user created")
+
 }
 
 export const patientLogin = async (req,res)=>{

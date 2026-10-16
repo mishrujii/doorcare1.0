@@ -4,7 +4,9 @@ import { patientSignup, patientLogin, fetchPatientsList } from '../controllers/p
 
 const patientRouter = express.Router()
 
-patientRouter.post("/signup",upload.single("verificationId"),patientSignup)
+patientRouter.post("/signup",upload.fields([
+    { name: "verificationId" },
+    { name: "reports" } ]),patientSignup)
 patientRouter.post('/login',patientLogin)
 patientRouter.get('/patients-list',fetchPatientsList)
 

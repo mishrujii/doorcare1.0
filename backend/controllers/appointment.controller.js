@@ -1,4 +1,4 @@
-import appointmentModel from "../models/appointment.model"
+import appointmentModel from "../models/appointment.model.js"
 
 export const createAppointment = async (req,res)=>{
     const {doctorId, status, date, time, symptoms} = req.body

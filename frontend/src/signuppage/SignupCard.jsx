@@ -1,10 +1,33 @@
-import { Link } from "react-router-dom";
+import axios from 'axios';
 
 function SignupCard({ user }) {
+
+async function signupHandler(e){
+    e.preventDefault();
+    const formData = new FormData(e.target)
+    console.log(formData)
+    console.log("form data recieved")
+    try {
+            const response = await axios.post(
+                "http://localhost:3000/api/patient/signup",
+                formData
+            );
+            for (const [key, value] of formData.entries()) {
+            console.log(key, value);
+            }
+            console.log(response.data);
+            alert("Signup successful!");
+        } catch (error) {
+            console.error(error.response?.data || error.message);
+            alert(error.response?.data?.message || "Signup failed!");
+        }
+  }
+  
  
   return (
     <div>
       <form
+        onSubmit={signupHandler}
         className="flex flex-col items-start *:mt-4 [&_input]:hover:shadow-md border border-gray-400 px-4 pb-4 rounded-xl hover:shadow-xl transition duration-200"
         action=""
       >
@@ -106,14 +129,12 @@ function SignupCard({ user }) {
           />
         </div>
         <div className="mx-auto">
-          <Link to={user === "doctor" ? "/doctor-verification-form" : '/'}>
             <button
               type="submit"
               className="bg-purple-300 px-2 rounded-2xl hover:cursor-pointer"
             >
               {user ===     "doctor" ? "next" : "register"}
             </button>
-          </Link>
         </div>
       </form>
     </div>

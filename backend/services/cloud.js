@@ -1,27 +1,28 @@
-import ImageKit from "@imagekit/nodejs";
-import dotenv from "dotenv";
+import { v2 as cloudinary } from "cloudinary";
+import { Readable } from "stream";
+import dotenv from 'dotenv'
 
-dotenv.config();
+dotenv.config()
 
-const client = new ImageKit({
-  privateKey: process.env.IMAGEKIT_PRIVATE_KEY,
-  timeout: 5000,
-  maxRetries: 0,
-  logLevel: "debug"
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
-async function imageKit(image) {
-  let response
-  try{
-      response = await client.files.upload({
-      file: image.buffer,
-      fileName: image.originalname
+async function uploadToCloudinary(image) {
+  const result = await new Promise((resolve, reject) => {
+        const stream = cloudinary.uploader.upload_stream(
+            { folder: "doorcare" },
+            (error, result) => {
+                if (error) reject(error);
+                else resolve(result);
+            }
+        );
+
+        Readable.from(image.buffer).pipe(stream);
     });
-  }
-  catch (error){
-    response = { url: "https://unsplash.com/photos/a-cartoon-character-wearing-a-blue-shirt-and-a-blue-hat-gEf9bOMTZtk"}
-  }
-  return response;
+    return result;
 }
 
-export default imageKit;
+export default uploadToCloudinary;
