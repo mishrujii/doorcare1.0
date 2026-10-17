@@ -11,7 +11,7 @@ export const createAppointment = async (req,res)=>{
 }
 
 export const doctorsAppointmentsList = async (req,res)=>{
-    const doctorId = ''
+    const doctorId = req.user.userId
     const appointments = await appointmentModel.find({doctorId})
     res.status(200).json(appointments)
 }

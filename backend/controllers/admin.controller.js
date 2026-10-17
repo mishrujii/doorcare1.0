@@ -2,9 +2,23 @@ export const adminLogin = async (req,res)=>{
     const {username, password} = req.body
     if(username===process.env.ADMIN_USERNAME){
         if(password===process.env.ADMIN_PASSWORD){
-            console.log('admin logged in successfully');
+            const token = jwt.sign(
+                {
+                    userId: user._id,
+                    role: "admin"
+                },
+                process.env.JWT_SECRET
+            )
+            res.cookie("token",token)
+            res.status(200).json({
+                message: "Admin Registration Successful"
+            })
         }
-        else console.log('incorrect password!');
+        else res.status(401).json({
+            message: "incorrect password"
+        })
     }
-    else console.log('invalid username!')
+    else res.status(404).json({
+        message: "user doesn't exist"
+    })
 }
