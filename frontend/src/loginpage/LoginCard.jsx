@@ -10,7 +10,7 @@ function LoginCard({ user }) {
     const password = e.currentTarget.password.value;
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/patient/login",
+        user==='patient'?"http://localhost:3000/api/patient/login":"http://localhost:3000/api/doctor/login",
         { username, password },
       );
       console.log(response.data);

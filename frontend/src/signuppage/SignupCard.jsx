@@ -191,6 +191,15 @@ function SignupCard({ user }) {
                 id="certificate"
               />
             </div>
+            <div>
+              <label htmlFor="fee">Fee: </label>
+              <input
+                className="border pl-1 rounded-md hover:cursor-pointer text-gray-500"
+                type="number"
+                name="fee"
+                id="fee"
+              />
+            </div>
           </>
         )}
 

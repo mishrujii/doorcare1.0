@@ -33,7 +33,7 @@ const doctorSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  institue: {
+  institute: {
     type: String,
     required: true,
   },
@@ -64,7 +64,7 @@ const doctorSchema = mongoose.Schema({
   },
   rating: {
     type: Number,
-    default: "N/A",
+    default: 0,
   },
 });
 

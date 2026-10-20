@@ -1,5 +1,6 @@
 import doctorModel from "../models/doctor.model.js";
 import uploadToCloudinary from "../services/cloud.js";
+import jwt from 'jsonwebtoken'
 
 export const doctorSignup = async (req, res) => {
   const {
