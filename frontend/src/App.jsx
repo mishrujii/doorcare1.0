@@ -5,14 +5,13 @@ import DoctorLoginPage from "./loginpage/DoctorLoginPage";
 import AdminLoginPage from "./loginpage/AdminLoginPage";
 import PatientSignup from "./signuppage/PatientSignup";
 import DoctorSignup from "./signuppage/DoctorSignup";
-import DoctorVerifyPage from "./signuppage/DoctorVerifyPage";
-import PatientDashBoardPage from "./dashboardpage/PatientDashBoardPage";
 import DoctorDescriptionPage from "./dashboardpage/DoctorDescriptionPage";
 import DoctorDashboardPage from "./dashboardpage/DoctorDashboardPage";
 import AdminDashboardPage from "./dashboardpage/AdminDashboardPage";
 import DoctorRegistrationPage from "./dashboardpage/DoctorRegistrationPage";
 import RegisteredDoctorsPage from "./dashboardpage/RegisteredDoctorsPage";
 import RegisteredPatientsPage from "./dashboardpage/RegisteredPatientsPage";
+import PatientDashBoardPage from "./dashboardpage/PatientDashboardPage";
 
 function App() {
   return (
@@ -24,14 +23,13 @@ function App() {
         <Route path="/admin-login" element={<AdminLoginPage />} />
         <Route path="/patient/signup" element={<PatientSignup />} />
         <Route path="/doctor-signup" element={<DoctorSignup />} />
-        <Route path="/doctor-verification-form" element={<DoctorVerifyPage/>}/>
-        <Route path="/patient-dashboard" element={<PatientDashBoardPage/>}/>
-        <Route path="/doctor-description" element={<DoctorDescriptionPage/>}/>
-        <Route path="/doctor-dashboard" element={<DoctorDashboardPage/>}/>
-        <Route path="/admin-dashboard" element={<AdminDashboardPage/>}/>
-        <Route path="/doctor-registration" element={<DoctorRegistrationPage/>}/>
-        <Route path="/registered-doctors" element={<RegisteredDoctorsPage/>}/>
-        <Route path="/registered-patients" element={<RegisteredPatientsPage/>}/>
+        <Route path="/patient-dashboard" element={<PatientDashBoardPage />} />
+        <Route path="/doctor-description" element={<DoctorDescriptionPage />} />
+        <Route path="/doctor-dashboard" element={<DoctorDashboardPage />} />
+        <Route path="/admin-dashboard" element={<AdminDashboardPage />} />
+        <Route path="/doctor-registration" element={<DoctorRegistrationPage />} />
+        <Route path="/registered-doctors" element={<RegisteredDoctorsPage />} />
+        <Route path="/registered-patients" element={<RegisteredPatientsPage />} />
       </Routes>
     </BrowserRouter>
   );

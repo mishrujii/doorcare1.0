@@ -1,8 +1,5 @@
-
 function HeroSection() {
-  return (
-    <div className="mt-12 ">Hero</div>
-  )
+  return <div className="mt-12 ">Hero</div>;
 }
 
-export default HeroSection
+export default HeroSection;

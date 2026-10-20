@@ -1,34 +1,39 @@
-import axios from 'axios';
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function SignupCard({ user }) {
+  const navigate = useNavigate();
 
-async function signupHandler(e){
+  async function signupHandler(e) {
     e.preventDefault();
-    const formData = new FormData(e.target)
-    console.log(formData)
-    console.log("form data recieved")
+    const formData = new FormData(e.target);
+    console.log(formData);
+    console.log("form data recieved");
     try {
-            const response = await axios.post(
-                "http://localhost:3000/api/patient/signup",
-                formData
-            );
-            for (const [key, value] of formData.entries()) {
-            console.log(key, value);
-            }
-            console.log(response.data);
-            alert("Signup successful!");
-        } catch (error) {
-            console.error(error.response?.data || error.message);
-            alert(error.response?.data?.message || "Signup failed!");
-        }
+      const response = await axios.post(
+        user === "patient"
+          ? "http://localhost:3000/api/patient/signup"
+          : "http://localhost:3000/api/doctor/signup",
+        formData,
+      );
+      for (const [key, value] of formData.entries()) {
+        console.log(key, value);
+      }
+      console.log(response.data);
+      if (user === "patient") navigate("/patient-dashboard");
+      else if (user === "doctor") navigate("/doctor-dashboard");
+      // alert("Signup successful!");
+    } catch (error) {
+      console.error(error.response?.data || error.message);
+      alert(error.response?.data?.message || "Signup failed!");
+    }
   }
-  
- 
+
   return (
-    <div>
+    <div className={`${user === "doctor" ? "pt-60" : "pt-10"} pb-10`}>
       <form
         onSubmit={signupHandler}
-        className="flex flex-col items-start *:mt-4 [&_input]:hover:shadow-md border border-gray-400 px-4 pb-4 rounded-xl hover:shadow-xl transition duration-200"
+        className="flex flex-col items-start *:mt-4 [&_input]:hover:shadow-md border border-gray-400 px-4 pb-4 rounded-xl hover:shadow-xl transition duration-20"
         action=""
       >
         <h2 className="mx-auto bg-purple-300 px-2  rounded-xl">
@@ -103,7 +108,7 @@ async function signupHandler(e){
                 className="border pl-1 rounded-md text-gray-500 hover:cursor-pointer"
                 type="file"
                 id="verificationId"
-                name= "verificationId"
+                name="verificationId"
               />
             </div>
             <div>
@@ -116,7 +121,78 @@ async function signupHandler(e){
               />
             </div>
           </>
-        ) : null}
+        ) : (
+          <>
+            <div>
+              <label htmlFor="degree">Medical Degree: </label>
+              <input
+                className="border pl-1 rounded-md"
+                name="degree"
+                type="text"
+                id="degree"
+                placeholder="enter qualification"
+              />
+            </div>
+            <div>
+              <label htmlFor="institute">University/ Institute: </label>
+              <input
+                className="border pl-1 rounded-md"
+                name="institute"
+                type="text"
+                id="institute"
+                placeholder="enter university name"
+              />
+            </div>
+            <div>
+              <label htmlFor="graduation">Graduation Year: </label>
+              <input
+                className="border pl-1 rounded-md hover:cursor-pointer text-gray-500"
+                type="date"
+                name="gradYear"
+                id="graduation"
+              />
+            </div>
+            <div>
+              <label htmlFor="specialization">Specialization: </label>
+              <input
+                className="border pl-1 rounded-md"
+                type="text"
+                name="specialization"
+                id="specialization"
+                placeholder="enter specialization"
+              />
+            </div>
+            <div>
+              <label htmlFor="experience">Years Of Experience: </label>
+              <input
+                name="experience"
+                className="border pl-1 rounded-md"
+                type="number"
+                id="experience"
+              />
+            </div>
+            <div>
+              <label htmlFor="medical-registration-number">
+                Medical Registration Number:{" "}
+              </label>
+              <input
+                name="medicalRegistrationNumber"
+                className="border pl-1 rounded-md"
+                type="number"
+                id="medical-registration-number"
+              />
+            </div>
+            <div>
+              <label htmlFor="certificate">Registration Certificate: </label>
+              <input
+                className="border pl-1 rounded-md hover:cursor-pointer text-gray-500"
+                type="file"
+                name="registrationCertificate"
+                id="certificate"
+              />
+            </div>
+          </>
+        )}
 
         <div>
           <label htmlFor="password">Set Password: </label>
@@ -129,12 +205,12 @@ async function signupHandler(e){
           />
         </div>
         <div className="mx-auto">
-            <button
-              type="submit"
-              className="bg-purple-300 px-2 rounded-2xl hover:cursor-pointer"
-            >
-              {user ===     "doctor" ? "next" : "register"}
-            </button>
+          <button
+            type="submit"
+            className="bg-purple-300 px-2 rounded-2xl hover:cursor-pointer"
+          >
+            register
+          </button>
         </div>
       </form>
     </div>
