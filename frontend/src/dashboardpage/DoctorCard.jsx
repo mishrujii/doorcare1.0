@@ -14,7 +14,7 @@ function DoctorCard({ doctor }) {
           <h2>Rating: {doctor.rating}</h2>
         </div>
         <div className="flex justify-center">
-          <Link to="/doctor-description">
+          <Link to={`/doctor-description/${doctor._id}`}>
             <button className="mt-1 mb-1 px-2 rounded-xl bg-blue-400 hover:cursor-pointer">
               Select
             </button>

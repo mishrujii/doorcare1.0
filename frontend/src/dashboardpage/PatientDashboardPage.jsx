@@ -4,7 +4,7 @@ import Navbar from "../components/Navbar";
 import DoctorCard from "./DoctorCard";
 
 function PatientDashBoardPage() {
-  const [doctorsList, setDoctorsList] = useState(null);
+  const [doctorsList, setDoctorsList] = useState([]);
   useEffect(() => {
     async function getDoctorsList() {
       const response = await axios.get("http://localhost:3000/api/doctor/list");

@@ -1,13 +1,14 @@
 import appointmentModel from "../models/appointment.model.js";
 
 export const createAppointment = async (req, res) => {
-  const { doctorId, status, date, time, symptoms } = req.body;
+  const {patientId, doctorId, status, date, time, concern } = req.body;
   await appointmentModel.create({
+    patientId,
     doctorId,
     status,
     date,
     time,
-    symptoms,
+    concern,
   });
   res.status(200).json({
     message: "appointment submitted",

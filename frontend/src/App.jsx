@@ -24,7 +24,7 @@ function App() {
         <Route path="/patient/signup" element={<PatientSignup />} />
         <Route path="/doctor-signup" element={<DoctorSignup />} />
         <Route path="/patient-dashboard" element={<PatientDashBoardPage />} />
-        <Route path="/doctor-description" element={<DoctorDescriptionPage />} />
+        <Route path="/doctor-description/:doctorId" element={<DoctorDescriptionPage />} />
         <Route path="/doctor-dashboard" element={<DoctorDashboardPage />} />
         <Route path="/admin-dashboard" element={<AdminDashboardPage />} />
         <Route path="/doctor-registration" element={<DoctorRegistrationPage />} />

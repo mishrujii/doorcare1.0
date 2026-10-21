@@ -81,14 +81,12 @@ export const doctorLogin = async (req, res) => {
 
 export const fetchDoctorsList = async (req, res) => {
   const doctors = await doctorModel.find();
-  res.status(200).json({
-    message: doctors,
-  });
+  res.status(200).json(doctors);
 };
 
 export const fetchDoctor = async (req, res) => {
-  const doctor = await doctorModel.find(req.body.username);
-  res.status(200).json({
-    message: doctor,
-  });
+  // console.log(req.params.doctorId)
+  const doctor = await doctorModel.findById(req.params.doctorId);
+  // console.log(doctor)
+  res.status(200).json(doctor);
 };

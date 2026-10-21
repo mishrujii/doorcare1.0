@@ -17,6 +17,6 @@ doctorRouter.post(
 );
 doctorRouter.post("/login", doctorLogin);
 doctorRouter.get("/list", authenticate, fetchDoctorsList);
-doctorRouter.get("/:username", authenticate, fetchDoctor);
+doctorRouter.get("/:doctorId", authenticate, fetchDoctor);
 
 export default doctorRouter;
