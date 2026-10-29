@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-function SignupCard({ user }) {
+function SignupCard({ user, setLoggedIn }) {
   const navigate = useNavigate();
 
   async function signupHandler(e) {
@@ -20,11 +20,13 @@ function SignupCard({ user }) {
         console.log(key, value);
       }
       console.log(response.data);
+      setLoggedIn(true)
       if (user === "patient") navigate("/patient-dashboard");
       else if (user === "doctor") navigate("/doctor-dashboard");
       // alert("Signup successful!");
     } catch (error) {
       console.error(error.response?.data || error.message);
+      setLoggedIn(false)
       alert(error.response?.data?.message || "Signup failed!");
     }
   }

@@ -3,9 +3,10 @@ import axios from "axios";
 import Navbar from "../components/Navbar";
 import DoctorCard from "./DoctorCard";
 
-function PatientDashBoardPage() {
+function PatientDashBoardPage({loggedIn}) {
   const [doctorsList, setDoctorsList] = useState([]);
   useEffect(() => {
+    console.log(loggedIn)
     async function getDoctorsList() {
       const response = await axios.get("http://localhost:3000/api/doctor/list");
       setDoctorsList(response.data);
@@ -14,7 +15,7 @@ function PatientDashBoardPage() {
   }, []);
   return (
     <div className="h-screen ">
-      <Navbar />
+      <Navbar loggedIn={loggedIn}/>
       <div className="mt-14">
         <div className="flex">
           <input

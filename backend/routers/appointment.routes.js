@@ -3,17 +3,18 @@ import {
   allAppointmentList,
   createAppointment,
   doctorsAppointmentsList,
+  patientAppointment,
+  setAppointmentStatus,
 } from "../controllers/appointment.controller.js";
 import authenticate from "../middleware/auth.js";
 
 const appointmentRouter = express.Router();
 
 appointmentRouter.post("/create-appointment", authenticate, createAppointment);
-appointmentRouter.get(
-  "/doctors-appointments",
-  authenticate,
-  doctorsAppointmentsList,
+appointmentRouter.get("/doctors-appointments",authenticate,doctorsAppointmentsList,
 );
+appointmentRouter.get("/get-patient-appointment/:doctorId",authenticate, patientAppointment)
 appointmentRouter.get("/all-appointments", authenticate, allAppointmentList);
+appointmentRouter.post("/update-appointment-status", authenticate, setAppointmentStatus)
 
 export default appointmentRouter;

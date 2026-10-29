@@ -17,15 +17,15 @@ const appointmentSchema = mongoose.Schema({
     default: "pending",
     required: true,
   },
-  date: {
+  appointmentDate: {
     type: Date,
     required: true,
   },
-  time: {
+  appointmentTime: {
     type: String,
     required: true,
   },
-  concern: {
+  appointmentConcern: {
     type: String,
   },
 });

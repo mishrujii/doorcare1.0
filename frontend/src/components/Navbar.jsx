@@ -1,16 +1,29 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-function Navbar() {
+function Navbar({loggedIn, setLoggedIn}) {
   const [loginOptions, setLoginOptions] = useState(false);
+  // const [loggedIn, setLoggedIn] = useState(false);
+  // const profileHandle
   return (
-    <div className="bg-yellow-800 flex justify-between px-4 py-2 items-center fixed w-full top-0">
-      <Link to="/">
-        <span>CHUTMASTER</span>
+    <div  className="bg-blue-400 flex justify-between px-4 py-2 items-center fixed w-full top-0">
+      <Link to="/" onClick={()=>{setLoggedIn(false)}}>
+        <span>DOORCARE</span>
       </Link>
+      {loggedIn? (
+        <Link to={'/profile'}>
+          <div
+            // onClick={profileHandler}
+            className="bg-white rounded-2xl px-2 py-1 hover:cursor-pointer relative"
+          >
+            profile
+          </div>
+        </Link>
+      ):
+      (
       <div
         onClick={() => setLoginOptions((prev) => !prev)}
-        className="bg-purple-400 rounded-2xl px-2 py-1 hover:cursor-pointer relative"
+        className="bg-white rounded-2xl px-2 py-1 hover:cursor-pointer relative"
       >
         login/signup
         {loginOptions && (
@@ -31,6 +44,7 @@ function Navbar() {
           </div>
         )}
       </div>
+    )}
     </div>
   );
 }

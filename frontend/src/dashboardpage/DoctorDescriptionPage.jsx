@@ -4,40 +4,70 @@ import { useEffect } from "react";
 import axios from "axios";
 import { useState } from "react";
 
-function DoctorDescriptionPage() {
+function DoctorDescriptionPage({loggedIn}) {
   const handleInput = (e) => {
     e.target.style.height = "auto";
     e.target.style.height = `${e.target.scrollHeight}px`;
   };
 
-  const {doctorId} = useParams()
+  const { doctorId } = useParams();
 
   const [doctorData, setDoctorData] = useState({
-    name: '',
-    specialization: '',
-    degree: '',
+    name: "",
+    specialization: "",
+    degree: "",
     experience: 0,
-    institute: '',
-    fee: 0
-  })
+    institute: "",
+    fee: 0,
+  });
 
-  useEffect(()=>{
-    async function getDoctorData(){
-      const response = await axios.get(`http://localhost:3000/api/doctor/${doctorId}`)
-      setDoctorData(response.data)
+  const [appointmentData, setAppointmentData] = useState(null)
+  // const [submitted, setSubmitted] = useState(false)
+
+  useEffect(() => {
+    async function getDoctorData() {
+      const response = await axios.get(
+        `http://localhost:3000/api/doctor/${doctorId}`,
+      );
+      setDoctorData(response.data);
+      try{const appointmentResponse = await axios.get(
+        `http://localhost:3000/api/appointment/get-patient-appointment/${doctorId}`
+      )
+      console.log(appointmentResponse.data)
+      if(appointmentResponse.data) setAppointmentData(appointmentResponse.data)
+        else setAppointmentData(null)
+    }catch(error){
+        console.log(error)
+      }
     }
-    getDoctorData()
-  },[doctorId])
+    getDoctorData();
+  }, [doctorId]);
 
-  async function handleAppointmentSubmit(e){
-    e.preventDefault()
-    const formData = new FormData(e.target)
-    
+  async function handleAppointmentSubmit(e) {
+    e.preventDefault();
+    const data =  {
+          appointmentTime: e.target.appointmentTime.value,
+          appointmentDate: e.target.appointmentDate.value,
+          appointmentConcern: e.target.appointmentConcern.value,
+          doctorId
+        }
+
+    console.log(data)
+    try {
+      await axios.post(
+        "http://localhost:3000/api/appointment/create-appointment",
+        data
+      );
+      alert("appointment submitted");
+    } catch (error) {
+      alert("appointment failed");
+      console.log(error);
+    }
   }
-  
+
   return (
     <div>
-      <Navbar />
+      <Navbar loggedIn={loggedIn}/>
       <div className="mt-16 ml-10 flex">
         <div className="p-4 rounded-xl border-gray-400 flex border w-fit">
           <img
@@ -55,18 +85,27 @@ function DoctorDescriptionPage() {
             <h2>Fee: ₹{doctorData.fee}/-</h2>
           </div>
         </div>
-        <div className="ml-10 border rounded-xl border-gray-400 px-4 flex flex-col">
+        <div className="ml-10 border rounded-xl border-gray-400 px-4 flex flex-col ">
           <h1 className="text-md mx-auto mb-4 px-2 mt-2 rounded-md bg-purple-300">
-            Appointment Form
+            Appointment {appointmentData? "Details":"Form"}
           </h1>
-          <form
+          {appointmentData?(
+            <div>
+              <p>Status: {appointmentData.status}</p>
+              <p>Time: {appointmentData.appointmentTime}</p>
+              <p>Date: {appointmentData.appointmentDate}</p>
+            </div>
+          )
+          :
+            (
+            <form
             className="[&_input]:border [&_input]:rounded-md [&_div]:mb-4 text-sm"
             action=""
             onSubmit={handleAppointmentSubmit}
           >
             <div>
               <label htmlFor="date">Date: </label>
-              <input type="date" id="date" name="appointmentDate"/>
+              <input type="date" id="date" name="appointmentDate" />
             </div>
             <div>
               <label htmlFor="time">Time: </label>
@@ -83,11 +122,14 @@ function DoctorDescriptionPage() {
               ></textarea>
             </div>
             <div className="flex justify-center">
-              <button type='submit' className="px-2 rounded-xl bg-yellow-300 hover:cursor-pointer">
+              <button
+                type="submit"
+                className="px-2 rounded-xl bg-yellow-300 hover:cursor-pointer"
+              >
                 Submit
               </button>
             </div>
-          </form>
+          </form>)}
         </div>
       </div>
       <div className="ml-10 mt-8 pb-2">

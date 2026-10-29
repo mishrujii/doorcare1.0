@@ -4,7 +4,7 @@ function DoctorCard({ doctor }) {
   return (
     <>
       <div className="border border-gray-300 hover:shadow-xl w-fit rounded-xl overflow-hidden text-xs flex flex-col mr-10 mt-6">
-        <img src="coma-dp.jpg" width="150" alt="" className="object-cover" />
+        <img src={doctor.profilePicture} width="150" alt="" className="object-cover" />
         <div className="flex flex-col items-start mx-auto">
           <h2>Dr. {doctor.name}</h2>
           <h2>

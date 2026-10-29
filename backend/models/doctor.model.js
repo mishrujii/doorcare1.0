@@ -66,6 +66,10 @@ const doctorSchema = mongoose.Schema({
     type: Number,
     default: 0,
   },
+  profilePicture: {
+    type: String,
+    default: "https://unsplash.com/illustrations/a-man-with-a-cross-on-his-chest-RMyqElmJe3k"
+  }
 });
 
 const doctorModel = mongoose.model("doctor", doctorSchema);

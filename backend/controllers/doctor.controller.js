@@ -85,7 +85,7 @@ export const fetchDoctorsList = async (req, res) => {
 };
 
 export const fetchDoctor = async (req, res) => {
-  // console.log(req.params.doctorId)
+  // console.log(req.params.doctorId) 
   const doctor = await doctorModel.findById(req.params.doctorId);
   // console.log(doctor)
   res.status(200).json(doctor);

@@ -1,3 +1,5 @@
+import jwt from 'jsonwebtoken'
+
 export const adminLogin = async (req, res) => {
   const { username, password } = req.body;
   if (username === process.env.ADMIN_USERNAME) {

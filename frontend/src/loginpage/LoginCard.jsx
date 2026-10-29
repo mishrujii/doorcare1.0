@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 
-function LoginCard({ user }) {
+function LoginCard({ user, setLoggedIn }) {
   const navigate = useNavigate();
 
   async function handleSubmit(e) {
@@ -12,16 +12,20 @@ function LoginCard({ user }) {
       const response = await axios.post(
         user === "patient"
           ? "http://localhost:3000/api/patient/login"
-          : "http://localhost:3000/api/doctor/login",
+          : user==="doctor"? 
+              "http://localhost:3000/api/doctor/login": user=="admin" && "http://localhost:3000/api/admin/login",
         { username, password }
       );
       console.log(response.data);
       // alert("login successful!")
+      setLoggedIn(true)
+      console.log("set login set true successfully")
       if (user === "patient") navigate("/patient-dashboard");
       else if (user === "doctor") navigate("/doctor-dashboard");
       else if (user === "admin") navigate("/admin-dashboard");
     } catch (error) {
       console.log(error);
+      setLoggedIn(false)
       alert("login failed!");
     }
   }
@@ -29,26 +33,34 @@ function LoginCard({ user }) {
     <div>
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col items-center border border-gray-300 shadow-xl p-4 rounded-xl"
+        className="flex flex-col items-center border border-gray-300 hover:shadow-xl p-4 rounded-xl"
         action=""
       >
-        <h2 className="border bg-purple-400 px-3 rounded-xl mb-2">
+        <h2 className=" bg-purple-400 px-3 py-1 rounded-2xl mb-2">
           {user} login
         </h2>
-        <input
-          name="username"
-          className="border mt-2 w-60 pl-2 rounded-md"
-          type="text"
-          placeholder="enter username"
-        />
-        <input
-          name="password"
-          className="border mt-2 w-60 pl-2 rounded-md"
-          type="password"
-          placeholder="enter password"
-        />
+        <div>
+          <label htmlFor="username">username: </label>
+          <input
+            id="username"
+            name="username"
+            className="border mt-2 w-40 pl-2 rounded-md"
+            type="text"
+            placeholder="enter username"
+          />
+        </div>
+        <div>
+          <label htmlFor="password">password: </label>
+          <input
+            id="password"
+            name="password"
+            className="border mt-2 w-40 pl-2 rounded-md"
+            type="password"
+            placeholder="enter password"
+          />
+        </div>
         <button
-          className="border mt-2 px-2  rounded-2xl bg-pink-400 hover:cursor-pointer"
+          className=" mt-4 px-2 py-1 rounded-2xl bg-pink-400 hover:cursor-pointer"
           type="submit"
         >
           login

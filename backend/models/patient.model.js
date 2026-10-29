@@ -37,6 +37,10 @@ const patientSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  profilePicture: {
+    type: String,
+    default: "https://unsplash.com/illustrations/a-man-wearing-a-blue-vest-and-bow-tie-Olaz24QWjZI"
+  }
 });
 
 const patientModel = mongoose.model("patient", patientSchema);
