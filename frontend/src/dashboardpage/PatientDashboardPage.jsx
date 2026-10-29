@@ -19,6 +19,7 @@ function PatientDashBoardPage({loggedIn}) {
       <div className="mt-14">
         <div className="flex">
           <input
+            name="search"
             className="mx-auto bg-gray-300 rounded-xl pl-4 "
             type="text"
             placeholder="search"

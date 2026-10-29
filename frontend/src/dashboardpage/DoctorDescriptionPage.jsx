@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import axios from "axios";
 import { useState } from "react";
 
-function DoctorDescriptionPage({loggedIn}) {
+function DoctorDescriptionPage({ loggedIn }) {
   const handleInput = (e) => {
     e.target.style.height = "auto";
     e.target.style.height = `${e.target.scrollHeight}px`;
@@ -21,7 +21,7 @@ function DoctorDescriptionPage({loggedIn}) {
     fee: 0,
   });
 
-  const [appointmentData, setAppointmentData] = useState(null)
+  const [appointmentData, setAppointmentData] = useState(null);
   // const [submitted, setSubmitted] = useState(false)
 
   useEffect(() => {
@@ -30,14 +30,16 @@ function DoctorDescriptionPage({loggedIn}) {
         `http://localhost:3000/api/doctor/${doctorId}`,
       );
       setDoctorData(response.data);
-      try{const appointmentResponse = await axios.get(
-        `http://localhost:3000/api/appointment/get-patient-appointment/${doctorId}`
-      )
-      console.log(appointmentResponse.data)
-      if(appointmentResponse.data) setAppointmentData(appointmentResponse.data)
-        else setAppointmentData(null)
-    }catch(error){
-        console.log(error)
+      try {
+        const appointmentResponse = await axios.get(
+          `http://localhost:3000/api/appointment/get-patient-appointment/${doctorId}`,
+        );
+        console.log(appointmentResponse.data);
+        if (appointmentResponse.data)
+          setAppointmentData(appointmentResponse.data);
+        else setAppointmentData(null);
+      } catch (error) {
+        console.log(error);
       }
     }
     getDoctorData();
@@ -45,18 +47,18 @@ function DoctorDescriptionPage({loggedIn}) {
 
   async function handleAppointmentSubmit(e) {
     e.preventDefault();
-    const data =  {
-          appointmentTime: e.target.appointmentTime.value,
-          appointmentDate: e.target.appointmentDate.value,
-          appointmentConcern: e.target.appointmentConcern.value,
-          doctorId
-        }
+    const data = {
+      appointmentTime: e.target.appointmentTime.value,
+      appointmentDate: e.target.appointmentDate.value,
+      appointmentConcern: e.target.appointmentConcern.value,
+      doctorId,
+    };
 
-    console.log(data)
+    console.log(data);
     try {
       await axios.post(
         "http://localhost:3000/api/appointment/create-appointment",
-        data
+        data,
       );
       alert("appointment submitted");
     } catch (error) {
@@ -65,71 +67,123 @@ function DoctorDescriptionPage({loggedIn}) {
     }
   }
 
+  const today = new Date();
+
+  const formatDate = (date) => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+  };
+
+  const minDate = formatDate(today);
+
+  const oneMonthLater = new Date(today);
+  oneMonthLater.setMonth(oneMonthLater.getMonth() + 1);
+
+  const maxDate = formatDate(oneMonthLater);
+
   return (
     <div>
-      <Navbar loggedIn={loggedIn}/>
+      <Navbar loggedIn={loggedIn} />
       <div className="mt-16 ml-10 flex">
         <div className="p-4 rounded-xl border-gray-400 flex border w-fit">
           <img
             className="rounded-sm object-cover"
-            src="/coma-dp.jpg"
+            src={doctorData.profilePicture}
             width="170"
             alt=""
           />
           <div className="ml-5 *:mt-2 text-md">
-            <p>Name: {doctorData.name}</p>
-            <h2>Specialization: {doctorData.specialization}</h2>
-            <h2>Experience: {doctorData.experience} Years</h2>
-            <h2>Mecial Degree: {doctorData.degree}</h2>
-            <h2>University/ Institue: {doctorData.institute}</h2>
-            <h2>Fee: ₹{doctorData.fee}/-</h2>
+            <p>
+              <b>Name: </b> {doctorData.name}
+            </p>
+            <h2>
+              <b>Specialization:</b> {doctorData.specialization}
+            </h2>
+            <h2>
+              <b>Experience:</b> {doctorData.experience} Years
+            </h2>
+            <h2>
+              <b>Medical Degree:</b> {doctorData.degree}
+            </h2>
+            <h2>
+              <b>University/ Institue:</b> {doctorData.institute}
+            </h2>
+            <h2>
+              <b>Fee:</b> ₹{doctorData.fee}/-
+            </h2>
           </div>
         </div>
         <div className="ml-10 border rounded-xl border-gray-400 px-4 flex flex-col ">
           <h1 className="text-md mx-auto mb-4 px-2 mt-2 rounded-md bg-purple-300">
-            Appointment {appointmentData? "Details":"Form"}
+            Appointment {appointmentData ? "Details" : "Form"}
           </h1>
-          {appointmentData?(
+          {appointmentData ? (
             <div>
-              <p>Status: {appointmentData.status}</p>
-              <p>Time: {appointmentData.appointmentTime}</p>
-              <p>Date: {appointmentData.appointmentDate}</p>
+              <p><b>Status: </b>{appointmentData.status}</p>
+              <p><b>Time: </b>{appointmentData.appointmentTime}</p>
+              <p><b>Date: </b>{appointmentData.appointmentDate}</p>
             </div>
-          )
-          :
-            (
+          ) : (
             <form
-            className="[&_input]:border [&_input]:rounded-md [&_div]:mb-4 text-sm"
-            action=""
-            onSubmit={handleAppointmentSubmit}
-          >
-            <div>
-              <label htmlFor="date">Date: </label>
-              <input type="date" id="date" name="appointmentDate" />
-            </div>
-            <div>
-              <label htmlFor="time">Time: </label>
-              <input type="time" id="time" name="appointmentTime" />
-            </div>
-            <div className="flex item-start">
-              <label htmlFor="symptom">Symptoms: </label>
-              <textarea
-                onInput={handleInput}
-                className="ml-2 p-1 border rounded-md w-60 text-xs overflow-hidden"
-                name="appointmentConcern"
-                id="symptom"
-                placeholder="describe your health issue"
-              ></textarea>
-            </div>
-            <div className="flex justify-center">
-              <button
-                type="submit"
-                className="px-2 rounded-xl bg-yellow-300 hover:cursor-pointer"
-              >
-                Submit
-              </button>
-            </div>
-          </form>)}
+              className="[&_input]:border [&_input]:rounded-md [&_div]:mb-4 text-sm"
+              action=""
+              onSubmit={handleAppointmentSubmit}
+            >
+              <div>
+                <label htmlFor="date">Date: </label>
+                <input
+                  className="text-gray-400"
+                  min={minDate}
+                  max={maxDate}
+                  type="date"
+                  id="date"
+                  name="appointmentDate"
+                />
+              </div>
+              <div>
+                <label htmlFor="time">Time: </label>
+                <select
+                  id="time"
+                  name="appointmentTime"
+                  defaultValue=""
+                  required
+                  className="rounded-md border border-gray-300 text-xs p-1 text-gray-500"
+                >
+                  <option value="" disabled>Select appointment time</option>
+                  <option value="09:00">9:00 AM</option>
+                  <option value="10:00">10:00 AM</option>
+                  <option value="11:00">11:00 AM</option>
+                  <option value="12:00">12:00 PM</option>
+                  <option value="13:00">01:00 PM</option>
+                  <option value="14:00">02:00 PM</option>
+                  <option value="15:00">03:00 PM</option>
+                  <option value="16:00">04:00 PM</option>
+                  <option value="17:00">05:00 PM</option>
+                </select>
+              </div>
+              <div className="flex item-start">
+                <label htmlFor="symptom">Symptoms: </label>
+                <textarea
+                  onInput={handleInput}
+                  className="ml-2 p-1 border rounded-md w-60 text-xs overflow-hidden"
+                  name="appointmentConcern"
+                  id="symptom"
+                  placeholder="describe your health issue"
+                ></textarea>
+              </div>
+              <div className="flex justify-center">
+                <button
+                  type="submit"
+                  className="px-2 rounded-xl bg-yellow-300 hover:cursor-pointer"
+                >
+                  Submit
+                </button>
+              </div>
+            </form>
+          )}
         </div>
       </div>
       <div className="ml-10 mt-8 pb-2">

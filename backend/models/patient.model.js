@@ -39,7 +39,7 @@ const patientSchema = new mongoose.Schema({
   },
   profilePicture: {
     type: String,
-    default: "https://unsplash.com/illustrations/a-man-wearing-a-blue-vest-and-bow-tie-Olaz24QWjZI"
+    default: "https://plus.unsplash.com/premium_vector-1728553012443-3cf619e7579d?q=80&w=880&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D"
   }
 });
 
