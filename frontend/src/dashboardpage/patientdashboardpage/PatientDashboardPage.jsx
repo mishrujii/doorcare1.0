@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
-import Navbar from "../components/Navbar";
+import Navbar from "../../components/Navbar";
 import DoctorCard from "./DoctorCard";
 
 function PatientDashBoardPage({loggedIn}) {
@@ -17,13 +18,18 @@ function PatientDashBoardPage({loggedIn}) {
     <div className="h-screen ">
       <Navbar loggedIn={loggedIn}/>
       <div className="mt-14">
-        <div className="flex">
+        <div className="flex pr-10">
           <input
             name="search"
             className="mx-auto bg-gray-300 rounded-xl pl-4 "
             type="text"
             placeholder="search"
           />
+          <div className="hover:cursor-pointer rounded-2xl px-2 text-xs flex items-center bg-purple-300">
+            <Link to='/patient-appointments'>
+              appointments
+            </Link>
+          </div>
         </div>
         <div className="ml-10 flex flex-wrap">
           {doctorsList.map((doctor) => (

@@ -82,7 +82,7 @@ function DoctorDashboardPage({loggedIn}) {
                           <div className="flex text-xs *:hover:cursor-pointer">
                             <button
                               onClick={() =>
-                                handleSetStatus(true, appointment._id)
+                                handleSetStatus("approved", appointment._id)
                               }
                               className="bg-green-400 px-1 rounded-md"
                             >
@@ -90,7 +90,7 @@ function DoctorDashboardPage({loggedIn}) {
                             </button>
                             <button
                               onClick={() =>
-                                handleSetStatus(false, appointment._id)
+                                handleSetStatus("rejected", appointment._id)
                               }
                               className="ml-2 bg-red-400 px-1 rounded-md"
                             >

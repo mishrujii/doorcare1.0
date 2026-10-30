@@ -47,14 +47,20 @@ export const createAppointment = async (req, res) => {
 };
 
 export const patientAppointment = async (req, res) => {
-  console.log("controller reached");
+  // console.log("controller reached");
   const patientId = req.user.userId;
   const doctorId = req.params.doctorId;
   const appointment = await appointmentModel.findOne({ patientId, doctorId });
-  console.log(appointment);
+  // console.log(appointment);
   if (appointment) res.send(appointment);
   // res.send(appointment)
 };
+
+export const patientAppointments = async(req,res)=>{
+  const patientId = req.user.userId
+  const appointments = await appointmentModel.find({patientId, status: "approved"}).populate("doctorId");
+  res.send(appointments)
+}
 
 export const doctorsAppointmentsList = async (req, res) => {
   const doctorId = req.user.userId;
@@ -73,9 +79,14 @@ export const allAppointmentList = async (req, res) => {
 export const setAppointmentStatus = async (req, res) => {
   const appointment = await appointmentModel.findByIdAndUpdate(
     req.body.appointmentId,
-    { status: req.body.setStatus ? "approved" : "rejected" },
+    { status:  req.body.setStatus},
   );
   res.send({
     message: "status updated",
   });
 };
+
+export const appointmentHistory = async (req,res)=>{
+  const appointments = await appointmentModel.find({status: "completed"}).populate("doctorId")
+  res.send(appointments)
+}

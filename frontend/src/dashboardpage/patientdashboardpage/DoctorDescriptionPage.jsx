@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import Navbar from "../components/Navbar";
+import Navbar from "../../components/Navbar";
 import { useEffect } from "react";
 import axios from "axios";
 import { useState } from "react";
@@ -120,7 +120,7 @@ function DoctorDescriptionPage({ loggedIn }) {
           <h1 className="text-md mx-auto mb-4 px-2 mt-2 rounded-md bg-purple-300">
             Appointment {appointmentData ? "Details" : "Form"}
           </h1>
-          {appointmentData ? (
+          {appointmentData?(
             <div>
               <p><b>Status: </b>{appointmentData.status}</p>
               <p><b>Time: </b>{appointmentData.appointmentTime}</p>
