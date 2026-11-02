@@ -50,7 +50,7 @@ export const patientAppointment = async (req, res) => {
   // console.log("controller reached");
   const patientId = req.user.userId;
   const doctorId = req.params.doctorId;
-  const appointment = await appointmentModel.findOne({ patientId, doctorId });
+  const appointment = await appointmentModel.findOne({ patientId, doctorId, status : { $ne: "completed"} });
   // console.log(appointment);
   if (appointment) res.send(appointment);
   // res.send(appointment)

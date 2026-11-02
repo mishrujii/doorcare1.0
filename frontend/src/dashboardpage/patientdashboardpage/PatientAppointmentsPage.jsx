@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Navbar from "../../components/Navbar";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 function PatientAppointmentsPage({ loggedIn }) {
   const [appointments, setAppointments] = useState([]);
@@ -94,7 +95,7 @@ function PatientAppointmentsPage({ loggedIn }) {
                 <td>{completedAppointments.indexOf(appointment) + 1}.</td>
                 <td>{appointment.appointmentDate}</td>
                 <td>{appointment.appointmentTime}</td>
-                <td>{appointment.doctorId.name}</td>
+                <td><Link to={`/doctor-description/${appointment.doctorId._id}`}>{appointment.doctorId.name}</Link></td>
               </tr>
             ))}
           </tbody>

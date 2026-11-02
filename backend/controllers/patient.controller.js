@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import patientModel from "../models/patient.model.js";
 import uploadToCloudinary from "../services/cloud.js";
+import reviewModel from "../models/review.model.js";
 
 export const patientSignup = async (req, res) => {
   const { name, username, email, DOB, password, contact, address } = req.body;
@@ -61,3 +62,12 @@ export const fetchPatientsList = async (req, res) => {
   const patients = await patientModel.find();
   res.status(200).json(patients);
 };
+
+export const doctorReview = async(req,res)=>{
+  const {reviewText, reviewRating} = req.body
+  const review = await reviewModel.create({
+    reviewText,
+    reviewRating
+  })
+  res.status(200).json(review)
+}

@@ -34,7 +34,7 @@ function DoctorDescriptionPage({ loggedIn }) {
         const appointmentResponse = await axios.get(
           `http://localhost:3000/api/appointment/get-patient-appointment/${doctorId}`,
         );
-        console.log(appointmentResponse.data);
+        console.log("data:", appointmentResponse.data);
         if (appointmentResponse.data)
           setAppointmentData(appointmentResponse.data);
         else setAppointmentData(null);
@@ -65,6 +65,17 @@ function DoctorDescriptionPage({ loggedIn }) {
       alert("appointment failed");
       console.log(error);
     }
+    try {
+      const appointmentResponse = await axios.get(
+        `http://localhost:3000/api/appointment/get-patient-appointment/${doctorId}`,
+      );
+      console.log(appointmentResponse.data);
+      if (appointmentResponse.data)
+        setAppointmentData(appointmentResponse.data);
+      else setAppointmentData(null);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   const today = new Date();
@@ -83,6 +94,27 @@ function DoctorDescriptionPage({ loggedIn }) {
   oneMonthLater.setMonth(oneMonthLater.getMonth() + 1);
 
   const maxDate = formatDate(oneMonthLater);
+
+  const [viewReviewForm, setViewReviewForm] = useState(false);
+
+  async function handleReviewSubmit(e) {
+    e.preventDefault();
+    const reviewText = e.target.reviewText.value
+    const reviewRating = e.target.reviewRating.value
+    try{
+      await axios.post("http://localhost:3000/api/patient/patient-review",
+        {
+          reviewText,
+          reviewRating
+        }
+      )
+      alert("reivew submitted successfully!")
+    }catch(error){
+      console.log(error)
+      alert("review submission failed!")
+    }
+    
+  }
 
   return (
     <div>
@@ -120,12 +152,82 @@ function DoctorDescriptionPage({ loggedIn }) {
           <h1 className="text-md mx-auto mb-4 px-2 mt-2 rounded-md bg-purple-300">
             Appointment {appointmentData ? "Details" : "Form"}
           </h1>
-          {appointmentData?(
-            <div>
-              <p><b>Status: </b>{appointmentData.status}</p>
-              <p><b>Time: </b>{appointmentData.appointmentTime}</p>
-              <p><b>Date: </b>{appointmentData.appointmentDate}</p>
-            </div>
+          {appointmentData ? (
+            appointmentData.status === "completed" ? (
+              <form
+                className="[&_input]:border [&_input]:rounded-md [&_div]:mb-4 text-sm"
+                action=""
+                onSubmit={handleAppointmentSubmit}
+              >
+                <div>
+                  <label htmlFor="date">Date: </label>
+                  <input
+                    className="text-gray-400"
+                    min={minDate}
+                    max={maxDate}
+                    type="date"
+                    id="date"
+                    name="appointmentDate"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="time">Time: </label>
+                  <select
+                    id="time"
+                    name="appointmentTime"
+                    defaultValue=""
+                    required
+                    className="rounded-md border border-gray-300 text-xs p-1 text-gray-500"
+                  >
+                    <option value="" disabled>
+                      Select appointment time
+                    </option>
+                    <option value="09:00">9:00 AM</option>
+                    <option value="10:00">10:00 AM</option>
+                    <option value="11:00">11:00 AM</option>
+                    <option value="12:00">12:00 PM</option>
+                    <option value="13:00">01:00 PM</option>
+                    <option value="14:00">02:00 PM</option>
+                    <option value="15:00">03:00 PM</option>
+                    <option value="16:00">04:00 PM</option>
+                    <option value="17:00">05:00 PM</option>
+                  </select>
+                </div>
+                <div className="flex item-start">
+                  <label htmlFor="symptom">Symptoms: </label>
+                  <textarea
+                    onInput={handleInput}
+                    className="ml-2 p-1 border rounded-md w-60 text-xs overflow-hidden"
+                    name="appointmentConcern"
+                    id="symptom"
+                    placeholder="describe your health issue"
+                  ></textarea>
+                </div>
+                <div className="flex justify-center">
+                  <button
+                    type="submit"
+                    className="px-2 rounded-xl bg-yellow-300 hover:cursor-pointer"
+                  >
+                    Submit
+                  </button>
+                </div>
+              </form>
+            ) : (
+              <div>
+                <p>
+                  <b>Status: </b>
+                  {appointmentData.status}
+                </p>
+                <p>
+                  <b>Time: </b>
+                  {appointmentData.appointmentTime}
+                </p>
+                <p>
+                  <b>Date: </b>
+                  {appointmentData.appointmentDate}
+                </p>
+              </div>
+            )
           ) : (
             <form
               className="[&_input]:border [&_input]:rounded-md [&_div]:mb-4 text-sm"
@@ -152,7 +254,9 @@ function DoctorDescriptionPage({ loggedIn }) {
                   required
                   className="rounded-md border border-gray-300 text-xs p-1 text-gray-500"
                 >
-                  <option value="" disabled>Select appointment time</option>
+                  <option value="" disabled>
+                    Select appointment time
+                  </option>
                   <option value="09:00">9:00 AM</option>
                   <option value="10:00">10:00 AM</option>
                   <option value="11:00">11:00 AM</option>
@@ -187,7 +291,52 @@ function DoctorDescriptionPage({ loggedIn }) {
         </div>
       </div>
       <div className="ml-10 mt-8 pb-2">
-        <p className="border-b">Reviews</p>
+        <div className="border-b">
+          Reviews
+          <div className=" relative w-fit inline rounded-md px-1 text-xs ml-10 bg-red-300">
+            <span
+              className="hover:cursor-pointer"
+              onClick={() => setViewReviewForm((prev) => !prev)}
+            >
+              add a review
+            </span>
+            {viewReviewForm && (
+              <form
+                onSubmit={handleReviewSubmit}
+                className="absolute p-1 w-50  hover:shadow-xl rounded-md bg-red-300 left-20 -top-5 z-10"
+              >
+                <div className="flex ">
+                  <label htmlFor="reviewText">review: </label>
+                  <textarea
+                    onInput={handleInput}
+                    placeholder="enter your review"
+                    className="p-1 overflow-hidden ml-1 bg-white rounded-md border w-40"
+                    id="reviewText"
+                    name="reviewText"
+                    type="text"
+                  />
+                </div>
+                <div className="mt-2">
+                  <label htmlFor="reviewRating">rating(out of 5): </label>
+                  <input
+                    className="bg-white border rounded-md pl-1 no-spinner"
+                    id="reviewRating"
+                    name="reviewRating"
+                    type="number"
+                    max="5"
+                    min="0"
+                  />
+                  <button
+                    className="hover:cursor-pointer ml-6 px-1 rounded-md bg-yellow-300"
+                    type="submit"
+                  >
+                    submit
+                  </button>
+                </div>
+              </form>
+            )}
+          </div>
+        </div>
         <div className="text-sm border-b flex items-center mt-2 pb-4">
           <img src="/dp.png" width="30" className="rounded-full" alt="" />
           <div className="flex flex-col ml-2">
