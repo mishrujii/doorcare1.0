@@ -63,11 +63,28 @@ export const fetchPatientsList = async (req, res) => {
   res.status(200).json(patients);
 };
 
-export const doctorReview = async(req,res)=>{
-  const {reviewText, reviewRating} = req.body
+export const createDoctorReview = async (req, res) => {
+  const { doctor, reviewText, reviewRating } = req.body;
+  const patient = req.user.userId;
+  console.log(doctor, patient);
   const review = await reviewModel.create({
     reviewText,
-    reviewRating
-  })
-  res.status(200).json(review)
-}
+    reviewRating,
+    doctor,
+    patient,
+  });
+  res.status(200).json(review);
+};
+
+export const fetchDoctorReviews = async (req, res) => {
+  console.log("controller reached");
+  const doctor = req.params.doctorId;
+  console.log("doctorId: ", doctor);
+  try {
+    const reviews = await reviewModel.find({ doctor }).populate("patient");
+    console.log(reviews.length);
+    res.status(200).send(reviews);
+  } catch (error) {
+    console.log(error);
+  }
+};

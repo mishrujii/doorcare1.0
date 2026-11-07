@@ -21,6 +21,8 @@ function DoctorDescriptionPage({ loggedIn }) {
     fee: 0,
   });
 
+  const [doctorReviews, setDoctorReviews] = useState([])
+
   const [appointmentData, setAppointmentData] = useState(null);
   // const [submitted, setSubmitted] = useState(false)
 
@@ -40,6 +42,17 @@ function DoctorDescriptionPage({ loggedIn }) {
         else setAppointmentData(null);
       } catch (error) {
         console.log(error);
+      }
+      try{
+        console.log("loaded")
+        const reviewResponse = await axios.get(
+          `http://localhost:3000/api/patient/get-doctor-reviews/${doctorId}`,
+        )
+        console.log(reviewResponse.data)
+        setDoctorReviews(reviewResponse.data)
+
+      }catch(error){
+        console.log(error)
       }
     }
     getDoctorData();
@@ -105,9 +118,11 @@ function DoctorDescriptionPage({ loggedIn }) {
       await axios.post("http://localhost:3000/api/patient/patient-review",
         {
           reviewText,
-          reviewRating
+          reviewRating,
+          doctor: doctorId
         }
       )
+      setViewReviewForm(false)
       alert("reivew submitted successfully!")
     }catch(error){
       console.log(error)
@@ -337,24 +352,25 @@ function DoctorDescriptionPage({ loggedIn }) {
             )}
           </div>
         </div>
-        <div className="text-sm border-b flex items-center mt-2 pb-4">
-          <img src="/dp.png" width="30" className="rounded-full" alt="" />
-          <div className="flex flex-col ml-2">
-            <div className="flex items-center">
-              <p className=" text-xs">
-                aman-kr-mishra <span className="text-xs">(1 year ago)</span>
-              </p>
-              <img src="#" alt="" />
-              <p className="ml-2">4.5/5</p>
+        {doctorReviews.map((review)=>(
+          <div key={review._id} className="text-sm border-b flex items-center mt-2 pb-4">
+            <img src={review.patient?.profilePicture} width="30" className="rounded-full" alt="" />
+            <div className="flex flex-col ml-2">
+              <div className="flex items-center">
+                <p className=" text-xs">
+                  {review.patient?.username} <span className="text-xs">(1 year ago)</span>
+                </p>
+                <img src="#" alt="" />
+                <p className="ml-2">{review.reviewRating}/5</p>
+              </div>
+              <div className="">
+                <p>
+                  {review.reviewText}
+                </p>
+              </div>
             </div>
-            <div className="">
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure,
-                deserunt.
-              </p>
-            </div>
-          </div>
-        </div>
+          </div>  
+        ))}
       </div>
     </div>
   );
