@@ -13,8 +13,10 @@ import DoctorRegistrationPage from "./dashboardpage/admindashboardpage/DoctorReg
 import RegisteredDoctorsPage from "./dashboardpage/admindashboardpage/RegisteredDoctorsPage";
 import RegisteredPatientsPage from "./dashboardpage/admindashboardpage/RegisteredPatientsPage";
 import PatientDashBoardPage from "./dashboardpage/patientdashboardpage/PatientDashboardPage";
-import ProfilePage from "./components/ProfilePage"
+import ProfilePage from "./profilepage/ProfilePage"
 import PatientAppointmentsPage from "./dashboardpage/patientdashboardpage/PatientAppointmentsPage";
+import EditProfilePage from "./profilepage/EditProfilePage";
+import EditPasswordPage from "./profilepage/EditPasswordPage";
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -78,6 +80,8 @@ function App() {
           path="/patient-appointments"
           element={<PatientAppointmentsPage loggedIn={loggedIn} />}
         />
+        <Route path="/edit-profile" element={<EditProfilePage loggedIn={loggedIn}/>}/>
+        <Route path="/edit-password" element={<EditPasswordPage loggedIn={loggedIn}/>}/>
       </Routes>
     </BrowserRouter>
   );

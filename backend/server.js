@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
-import connectDB from "./db.js";
+import connectDB from "./services/db.js";
 import patientRouter from "./routers/patient.routes.js";
 import doctorRouter from "./routers/doctor.routes.js";
 import adminRouter from "./routers/admin.routes.js";
