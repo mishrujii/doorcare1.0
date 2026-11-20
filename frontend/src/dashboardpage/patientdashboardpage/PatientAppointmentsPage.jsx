@@ -89,6 +89,7 @@ function PatientAppointmentsPage({ loggedIn }) {
               <th>Date</th>
               <th>Time</th>
               <th>Doctor</th>
+              <th>Status</th>
             </tr>
             {completedAppointments.map((appointment) => (
               <tr key={appointment._id}>
@@ -96,6 +97,7 @@ function PatientAppointmentsPage({ loggedIn }) {
                 <td>{appointment.appointmentDate}</td>
                 <td>{appointment.appointmentTime}</td>
                 <td><Link to={`/doctor-description/${appointment.doctorId._id}`}>{appointment.doctorId.name}</Link></td>
+                <td>{appointment.appointmentStatus}</td>
               </tr>
             ))}
           </tbody>

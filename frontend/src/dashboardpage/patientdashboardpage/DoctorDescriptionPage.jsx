@@ -150,6 +150,9 @@ function DoctorDescriptionPage({ loggedIn }) {
               <b>Specialization:</b> {doctorData.specialization}
             </h2>
             <h2>
+              gender
+            </h2>
+            <h2>
               <b>Experience:</b> {doctorData.experience} Years
             </h2>
             <h2>
@@ -234,13 +237,14 @@ function DoctorDescriptionPage({ loggedIn }) {
                   {appointmentData.status}
                 </p>
                 <p>
-                  <b>Time: </b>
-                  {appointmentData.appointmentTime}
-                </p>
-                <p>
                   <b>Date: </b>
                   {appointmentData.appointmentDate}
                 </p>
+                <p>
+                  <b>Time: </b>
+                  {appointmentData.appointmentTime}
+                </p>
+                <p>fee paid:</p>
               </div>
             )
           ) : (

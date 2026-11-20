@@ -29,7 +29,7 @@ function Navbar({ loggedIn, setLoggedIn }) {
           onClick={() => setLoginOptions((prev) => !prev)}
           className="bg-white rounded-2xl px-2 py-1 hover:cursor-pointer relative"
         >
-          login/signup
+          login
           {loginOptions && (
             <div className="flex flex-col absolute top-9 -left-10 bg-white p-2 z-1 rounded-2xl">
               <Link to="/patient-login">
