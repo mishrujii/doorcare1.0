@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { useState } from "react";
+// import { useState } from "react";
 import HomePage from "./homepage/HomePage";
 import PatientLoginPage from "./loginpage/PatientLoginPage";
 import DoctorLoginPage from "./loginpage/DoctorLoginPage";
@@ -13,16 +13,47 @@ import DoctorRegistrationPage from "./dashboardpage/admindashboardpage/DoctorReg
 import RegisteredDoctorsPage from "./dashboardpage/admindashboardpage/RegisteredDoctorsPage";
 import RegisteredPatientsPage from "./dashboardpage/admindashboardpage/RegisteredPatientsPage";
 import PatientDashBoardPage from "./dashboardpage/patientdashboardpage/PatientDashboardPage";
-import ProfilePage from "./profilepage/ProfilePage"
+import ProfilePage from "./profilepage/ProfilePage";
 import PatientAppointmentsPage from "./dashboardpage/patientdashboardpage/PatientAppointmentsPage";
 import EditProfilePage from "./profilepage/EditProfilePage";
 import EditPasswordPage from "./profilepage/EditPasswordPage";
 
 function App() {
-  const [loggedIn, setLoggedIn] = useState(false);
+  // const [loggedIn, setLoggedIn] = useState(false);
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/patient-login" element={<PatientLoginPage />} />
+        <Route path="/doctor-login" element={<DoctorLoginPage />} />
+        <Route path="/admin-login" element={<AdminLoginPage />} />
+        <Route path="/patient/signup" element={<PatientSignup />} />
+        <Route path="/doctor-signup" element={<DoctorSignup />} />
+        <Route path="/patient-dashboard" element={<PatientDashBoardPage />} />
+        <Route
+          path="/doctor-description/:doctorId"
+          element={<DoctorDescriptionPage />}
+        />
+        <Route path="/doctor-dashboard" element={<DoctorDashboardPage />} />
+        <Route path="/admin-dashboard" element={<AdminDashboardPage />} />
+        <Route
+          path="/doctor-registration"
+          element={<DoctorRegistrationPage />}
+        />
+        <Route path="/registered-doctors" element={<RegisteredDoctorsPage />} />
+        <Route
+          path="/registered-patients"
+          element={<RegisteredPatientsPage />}
+        />
+        <Route path="/profile-page" element={<ProfilePage />} />
+        <Route
+          path="/patient-appointments"
+          element={<PatientAppointmentsPage />}
+        />
+        <Route path="/edit-profile" element={<EditProfilePage />} />
+        <Route path="/edit-password" element={<EditPasswordPage />} />
+      </Routes>
+      {/* <Routes>
         <Route
           path="/"
           element={<HomePage loggedIn={loggedIn} setLoggedIn={setLoggedIn} />}
@@ -82,7 +113,7 @@ function App() {
         />
         <Route path="/edit-profile" element={<EditProfilePage loggedIn={loggedIn}/>}/>
         <Route path="/edit-password" element={<EditPasswordPage loggedIn={loggedIn}/>}/>
-      </Routes>
+      </Routes> */}
     </BrowserRouter>
   );
 }

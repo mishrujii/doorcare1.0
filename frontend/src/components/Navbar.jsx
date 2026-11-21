@@ -1,19 +1,49 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import { Link } from "react-router-dom";
 
-function Navbar({ loggedIn, setLoggedIn }) {
+function Navbar() {
   const [loginOptions, setLoginOptions] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
   // const [loggedIn, setLoggedIn] = useState(false);
   // const profileHandle
+  const handleLogout = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/api/auth/logout"
+      );
+      if (response.data.success) {
+        setLoggedIn(false);
+        console.log("logged out successfully!")
+        console.log(response.data)
+      } else {
+        console.log("ERROR: logout failed!");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    async function getData() {
+      try {
+        const response = await axios.get(
+          "http://localhost:3000/api/auth/check-login",
+        );
+        if (response.data.success==='true') {
+          setLoggedIn(true);
+        } else {
+          setLoggedIn(false);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getData();
+  }, []);
   return (
     <div className="bg-blue-400 flex justify-between px-4 py-2 items-center fixed w-full top-0">
-      <Link
-        to="/"
-        onClick={() => {
-          setLoggedIn(false);
-        }}
-      >
-        <span>DOORCARE</span>
+      <Link to="/" onClick={handleLogout}>
+        <img src="doorcare-logo.png" width="100px" className="rounded-md" />
       </Link>
       {loggedIn ? (
         <Link to={"/profile-page"}>

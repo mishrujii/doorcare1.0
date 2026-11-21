@@ -2,12 +2,12 @@ import LoginCard from "./LoginCard";
 import Navbar from '../components/Navbar'
 
 
-function PatientLoginPage({setLoggedIn}) {
+function PatientLoginPage() {
   return (
     <>
       <Navbar />
       <div className="flex h-screen justify-center items-center">
-        <LoginCard user="patient" setLoggedIn={setLoggedIn} />
+        <LoginCard user="patient" />
       </div>
     </>
   );
