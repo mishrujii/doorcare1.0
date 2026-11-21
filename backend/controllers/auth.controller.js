@@ -1,4 +1,6 @@
 import jwt from "jsonwebtoken";
+import patientModel from "../models/patient.model.js";
+import doctorModel from "../models/doctor.model.js";
 
 export const logoutUser = (req, res) => {
   try {
@@ -37,3 +39,22 @@ export const checkLogin = (req, res) => {
     });
   }
 };
+
+export const getUserData = async (req,res)=>{
+  const user = jwt.verify(req.cookies.token, process.env.JWT_SECRET)
+  try{
+    if(user.role == 'patient'){
+      const data = await patientModel.findById(user.userId)
+      console.log(data)
+      return res.status(200).json({
+        user: data
+      })
+    }else if(user.role == 'doctor'){
+      return res.status(200).json({
+        user: await doctorModel.findById(user.userId)
+      })
+    }
+  }catch(error){
+    console.log(error)
+  }
+}

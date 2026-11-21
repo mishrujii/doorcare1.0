@@ -25,6 +25,7 @@ export const doctorSignup = async (req, res) => {
   const user = await doctorModel.create({
     name,
     username,
+    role: "doctor",
     email,
     contact,
     address,

@@ -1,10 +1,10 @@
 import Navbar from "../components/Navbar";
 
-function EditProfilePage({ loggedIn }) {
+function EditProfilePage() {
   const user = [];
   return (
     <>
-      <Navbar loggedIn={loggedIn} />
+      <Navbar />
       <div className="w-fit m-auto">
         <form
           className="[&_input]:border [&_input]:rounded-md [&_input]:mt-4  border rounded-md p-4 w-fit mt-20 m-auto flex flex-col items-start"

@@ -9,6 +9,11 @@ const doctorSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  role: {
+    type: String,
+    enum: ["patient","doctor","admin"],
+    required: true
+  },
   DOB: {
     type: Date,
     required: true,

@@ -10,6 +10,11 @@ const patientSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
+  role: {
+    type: String,
+    enum: ['patient','doctor','admin'],
+    required: true,
+  },
   DOB: {
     type: Date,
     required: true,

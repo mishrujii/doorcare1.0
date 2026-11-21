@@ -29,7 +29,9 @@ function Navbar() {
         const response = await axios.get(
           "http://localhost:3000/api/auth/check-login",
         );
-        if (response.data.success==='true') {
+        console.log(response.data)
+        if (response.data.success) {
+          console.log("logged in set true")
           setLoggedIn(true);
         } else {
           setLoggedIn(false);

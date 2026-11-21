@@ -11,6 +11,7 @@ export const patientSignup = async (req, res) => {
     name,
     email,
     username,
+    role: "patient",
     DOB,
     password,
     contact,
