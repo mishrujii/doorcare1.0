@@ -89,3 +89,4 @@ export const fetchDoctorReviews = async (req, res) => {
     console.log(error);
   }
 };
+

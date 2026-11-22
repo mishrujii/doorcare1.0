@@ -21,4 +21,5 @@ patientRouter.get("/patients-list", authenticate, fetchPatientsList);
 patientRouter.post('/patient-review',authenticate, createDoctorReview)
 patientRouter.get('/get-doctor-reviews/:doctorId',authenticate, fetchDoctorReviews)
 
+
 export default patientRouter;
