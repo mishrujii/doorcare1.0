@@ -1,10 +1,10 @@
 import Navbar from "../../components/Navbar";
 import { Link } from "react-router-dom";
 
-function AdminDashboardPage({loggedIn}) {
+function AdminDashboardPage() {
   return (
     <div>
-      <Navbar loggedIn={loggedIn}/>
+      <Navbar/>
       <div className="mt-14 ml-10 flex">
         <div>
           <div className="flex">

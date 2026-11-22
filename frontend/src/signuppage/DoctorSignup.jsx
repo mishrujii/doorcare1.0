@@ -1,9 +1,9 @@
 import SignupCard from "./SignupCard";
 
-function DoctorSignup({setLoggedIn}) {
+function DoctorSignup() {
   return (
     <div className="flex justify-center items-center h-screen">
-      <SignupCard user="doctor" setLoggedIn={setLoggedIn} />
+      <SignupCard user="doctor" />
     </div>
   );
 }

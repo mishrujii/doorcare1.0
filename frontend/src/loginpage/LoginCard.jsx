@@ -18,14 +18,11 @@ function LoginCard({ user }) {
       );
       console.log(response.data);
       // alert("login successful!")
-      // setLoggedIn(true)
-      // console.log("set login set true successfully")
       if (user === "patient") navigate("/patient-dashboard");
       else if (user === "doctor") navigate("/doctor-dashboard");
       else if (user === "admin") navigate("/admin-dashboard");
     } catch (error) {
       console.log(error);
-      // setLoggedIn(false)
       alert("login failed!");
     }
   }

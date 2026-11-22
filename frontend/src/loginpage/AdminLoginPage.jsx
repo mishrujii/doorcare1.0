@@ -1,9 +1,9 @@
 import LoginCard from "./LoginCard";
 
-function AdminLoginPage({setLoggedIn}) {
+function AdminLoginPage() {
   return (
     <div className="flex h-screen justify-center items-center">
-      <LoginCard user="admin" setLoggedIn={setLoggedIn} />
+      <LoginCard user="admin"/>
     </div>
   );
 }

@@ -2,7 +2,7 @@ import axios from "axios";
 import Navbar from "../components/Navbar";
 import { useNavigate } from "react-router-dom";
 
-function EditPasswordPage({ loggedIn }) {
+function EditPasswordPage() {
   const navigate = useNavigate();
 
   async function handleSubmit(e){
@@ -33,7 +33,7 @@ function EditPasswordPage({ loggedIn }) {
   }
   return (
     <>
-      <Navbar loggedIn={loggedIn} />
+      <Navbar/>
       <div className="w-fit m-auto mt-20">
         <form
           onSubmit={handleSubmit}

@@ -3,7 +3,7 @@ import Navbar from "../../components/Navbar";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
-function PatientAppointmentsPage({ loggedIn }) {
+function PatientAppointmentsPage() {
   const [appointments, setAppointments] = useState([]);
   const [completedAppointments, setCompletedAppointments] = useState([]);
   // const [isChecked, setIsChecked] = useState(false)
@@ -40,7 +40,7 @@ function PatientAppointmentsPage({ loggedIn }) {
 
   return (
     <div>
-      <Navbar loggedIn={loggedIn} />
+      <Navbar/>
       <div className="mt-16 ml-4">
         <p className="mb-3 w-fit rounded-md px-1 bg-yellow-300">
           current appointments

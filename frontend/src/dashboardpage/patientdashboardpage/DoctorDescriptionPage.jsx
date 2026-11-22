@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import axios from "axios";
 import { useState } from "react";
 
-function DoctorDescriptionPage({ loggedIn }) {
+function DoctorDescriptionPage() {
   const handleInput = (e) => {
     e.target.style.height = "auto";
     e.target.style.height = `${e.target.scrollHeight}px`;
@@ -133,7 +133,7 @@ function DoctorDescriptionPage({ loggedIn }) {
 
   return (
     <div>
-      <Navbar loggedIn={loggedIn} />
+      <Navbar/>
       <div className="mt-16 ml-10 flex">
         <div className="p-4 rounded-xl border-gray-400 flex border w-fit">
           <img

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import axios from "axios";
 
-function DoctorDashboardPage({loggedIn}) {
+function DoctorDashboardPage() {
   const [doctorAppointments, setDoctorAppointments] = useState([]);
   const [viewConcern, setViewConcern] = useState(false);
 
@@ -37,7 +37,7 @@ function DoctorDashboardPage({loggedIn}) {
 
   return (
     <div>
-      <Navbar loggedIn={loggedIn}/>
+      <Navbar/>
       <div className="mt-14 flex *:ml-4">
         <div>
           <p className="mx-auto bg-red-300 px-2 rounded-md mb-4 w-fit">

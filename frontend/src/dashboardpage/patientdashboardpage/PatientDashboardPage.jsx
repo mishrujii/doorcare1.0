@@ -4,7 +4,7 @@ import axios from "axios";
 import Navbar from "../../components/Navbar";
 import DoctorCard from "./DoctorCard";
 
-function PatientDashBoardPage({ loggedIn }) {
+function PatientDashBoardPage() {
   const [globalDoctorsList, setGlobalDoctorsList] = useState([]);
   const [doctorsList, setDoctorsList] = useState([]);
 
@@ -26,7 +26,6 @@ function PatientDashBoardPage({ loggedIn }) {
 
   
   useEffect(() => {
-    console.log(loggedIn);
     async function getDoctorsList() {
       const response = await axios.get("http://localhost:3000/api/doctor/list");
       setGlobalDoctorsList(response.data);
@@ -36,7 +35,7 @@ function PatientDashBoardPage({ loggedIn }) {
   }, []);
   return (
     <div className="h-screen ">
-      <Navbar loggedIn={loggedIn} />
+      <Navbar/>
       <div className="mt-14">
         <div className="flex pr-10">
           <div className="mx-auto flex items-center">
