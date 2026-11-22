@@ -4,17 +4,29 @@ import axios from "axios";
 import Navbar from "../../components/Navbar";
 import DoctorCard from "./DoctorCard";
 
-function PatientDashBoardPage({loggedIn}) {
+function PatientDashBoardPage({ loggedIn }) {
   const [globalDoctorsList, setGlobalDoctorsList] = useState([]);
-  const [doctorsList,setDoctorsList] = useState([]);
+  const [doctorsList, setDoctorsList] = useState([]);
 
-  function handleSearch(e){
+  function handleSearchName(e) {
     const input = e.target.value;
-    const filteredDoctorList = globalDoctorsList.filter((doctor)=>((doctor.name.toUpperCase()).includes(input.toUpperCase())))
-    setDoctorsList(filteredDoctorList)
+    const filteredDoctorList = globalDoctorsList.filter((doctor) =>
+      doctor.name.toUpperCase().includes(input.toUpperCase()),
+    );
+    setDoctorsList(filteredDoctorList);
   }
+
+  function handleSearchSpecialization(e) {
+    const input = e.target.value;
+    const filteredDoctorList = globalDoctorsList.filter((doctor) =>
+      doctor.specialization.toUpperCase().includes(input.toUpperCase()),
+    );
+    setDoctorsList(filteredDoctorList);
+  }
+
+  
   useEffect(() => {
-    console.log(loggedIn)
+    console.log(loggedIn);
     async function getDoctorsList() {
       const response = await axios.get("http://localhost:3000/api/doctor/list");
       setGlobalDoctorsList(response.data);
@@ -24,20 +36,27 @@ function PatientDashBoardPage({loggedIn}) {
   }, []);
   return (
     <div className="h-screen ">
-      <Navbar loggedIn={loggedIn}/>
+      <Navbar loggedIn={loggedIn} />
       <div className="mt-14">
         <div className="flex pr-10">
-          <input
-            name="search"
-            className="mx-auto bg-gray-300 rounded-xl pl-4 "
-            type="text"
-            onChange={handleSearch}
-            placeholder="search"
-          />
+          <div className="mx-auto flex items-center">
+            <input
+              name="search-name"
+              className="bg-gray-300 rounded-xl pl-4 "
+              type="text"
+              onChange={handleSearchName}
+              placeholder="search for name"
+            />
+            <input 
+              type="text" 
+              name="search-specialization"
+              className="bg-gray-300 rounded-xl ml-4 pl-4 w-40"
+              placeholder="specialization"
+              onChange={handleSearchSpecialization}
+            />
+          </div>
           <div className="hover:cursor-pointer rounded-2xl px-2 text-xs flex items-center bg-purple-300">
-            <Link to='/patient-appointments'>
-              appointments
-            </Link>
+            <Link to="/patient-appointments">appointments</Link>
           </div>
         </div>
         <div className="ml-10 flex flex-wrap">
