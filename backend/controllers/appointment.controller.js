@@ -33,12 +33,12 @@ export const createAppointment = async (req, res) => {
       appointmentConcern,
     });
     await appointmentModel.find({ doctorId }).populate("patientId");
-    res.status(200).json({
+    return res.status(200).json({
       isSubmitted: true,
       message: "appointment submitted",
     });
   } catch (error) {
-    res.status(404).json({
+    return res.status(404).json({
       isSubmitted: false,
       message: error,
     });
@@ -52,14 +52,14 @@ export const patientAppointment = async (req, res) => {
   const doctorId = req.params.doctorId;
   const appointment = await appointmentModel.findOne({ patientId, doctorId, status : { $ne: "completed"} });
   // console.log(appointment);
-  if (appointment) res.send(appointment);
+  if (appointment) return res.send(appointment);
   // res.send(appointment)
 };
 
 export const patientAppointments = async(req,res)=>{
   const patientId = req.user.userId
   const appointments = await appointmentModel.find({patientId, status: "approved"}).populate("doctorId");
-  res.send(appointments)
+  return res.send(appointments)
 }
 
 export const doctorsAppointmentsList = async (req, res) => {
@@ -68,12 +68,12 @@ export const doctorsAppointmentsList = async (req, res) => {
     .find({ doctorId })
     .populate("patientId", "name address contact");
 
-  res.status(200).json(appointments);
+  return res.status(200).json(appointments);
 };
 
 export const allAppointmentList = async (req, res) => {
   const appointments = await appointmentModel.find();
-  res.status(200).json(appointments);
+  return res.status(200).json(appointments);
 };
 
 export const setAppointmentStatus = async (req, res) => {
@@ -81,12 +81,12 @@ export const setAppointmentStatus = async (req, res) => {
     req.body.appointmentId,
     { status:  req.body.setStatus},
   );
-  res.send({
+  return res.send({
     message: "status updated",
   });
 };
 
 export const appointmentHistory = async (req,res)=>{
   const appointments = await appointmentModel.find({status: "completed"}).populate("doctorId")
-  res.send(appointments)
+  return res.send(appointments)
 }

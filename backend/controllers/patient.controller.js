@@ -25,8 +25,8 @@ export const patientSignup = async (req, res) => {
     },
     process.env.JWT_SECRET,
   );
-  res.cookie("token", token);
-  res.status(200).json({
+
+  return res.cookie("token", token).status(200).json({
     message: "Patient Registration Successful",
   });
 };
@@ -45,23 +45,23 @@ export const patientLogin = async (req, res) => {
         },
         process.env.JWT_SECRET,
       );
-      res.cookie("token", token);
-      res.status(200).json({
+      // res.cookie("token", token);
+      return res.cookie("token", token).status(200).json({
         message: "Patient Login Successful",
       });
     } else
-      res.status(401).json({
+      return res.status(401).json({
         message: "incorrect password",
       });
   } else
-    res.status(404).json({
+    return res.status(404).json({
       message: "user doesn't exist",
     });
 };
 
 export const fetchPatientsList = async (req, res) => {
   const patients = await patientModel.find();
-  res.status(200).json(patients);
+  return res.status(200).json(patients);
 };
 
 export const createDoctorReview = async (req, res) => {
@@ -74,7 +74,7 @@ export const createDoctorReview = async (req, res) => {
     doctor,
     patient,
   });
-  res.status(200).json(review);
+  return res.status(200).json(review);
 };
 
 export const fetchDoctorReviews = async (req, res) => {
@@ -84,9 +84,12 @@ export const fetchDoctorReviews = async (req, res) => {
   try {
     const reviews = await reviewModel.find({ doctor }).populate("patient");
     console.log(reviews.length);
-    res.status(200).send(reviews);
+    return res.status(200).send(reviews);
   } catch (error) {
     console.log(error);
+    return res.json({
+      success: false,
+      message: "coudn't fetch reviews",
+    });
   }
 };
-

@@ -5,9 +5,7 @@ import uploadToCloudinary from "../services/cloud.js";
 
 export const logoutUser = (req, res) => {
   try {
-    res.clearCookie("token");
-
-    return res.status(200).json({
+    return res.clearCookie("token").status(200).json({
       success: true,
       message: "Logged out successfully",
     });
@@ -34,7 +32,7 @@ export const checkLogin = (req, res) => {
       user: decoded,
     });
   } catch (error) {
-    res.status(401).json({
+    return res.status(401).json({
       success: false,
       message: "invalid or expired token",
     });

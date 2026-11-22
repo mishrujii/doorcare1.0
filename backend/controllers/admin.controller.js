@@ -11,16 +11,15 @@ export const adminLogin = async (req, res) => {
         },
         process.env.JWT_SECRET,
       );
-      res.cookie("token", token);
-      res.status(200).json({
+      return res.cookie("token", token).status(200).json({
         message: "Admin Registration Successful",
       });
     } else
-      res.status(401).json({
+      return res.status(401).json({
         message: "incorrect password",
       });
   } else
-    res.status(404).json({
+    return res.status(404).json({
       message: "user doesn't exist",
     });
 };

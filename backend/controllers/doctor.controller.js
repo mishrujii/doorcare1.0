@@ -48,8 +48,7 @@ export const doctorSignup = async (req, res) => {
     },
     process.env.JWT_SECRET,
   );
-  res.cookie("token", token);
-  res.status(200).json({
+  return res.cookie("token", token).status(200).json({
     message: "Doctor Registration Successful",
   });
 };
@@ -66,28 +65,27 @@ export const doctorLogin = async (req, res) => {
         },
         process.env.JWT_SECRET,
       );
-      res.cookie("token", token);
-      res.status(200).json({
+      return res.cookie("token", token).status(200).json({
         message: "Doctor Registration Successful",
       });
     } else
-      res.status(401).json({
+      return res.status(401).json({
         message: "incorrect password",
       });
   } else
-    res.status(404).json({
+    return res.status(404).json({
       message: "user doesn't exist",
     });
 };
 
 export const fetchDoctorsList = async (req, res) => {
   const doctors = await doctorModel.find();
-  res.status(200).json(doctors);
+  return res.status(200).json(doctors);
 };
 
 export const fetchDoctor = async (req, res) => {
   // console.log(req.params.doctorId) 
   const doctor = await doctorModel.findById(req.params.doctorId);
   // console.log(doctor)
-  res.status(200).json(doctor);
+  return res.status(200).json(doctor);
 };

@@ -23,20 +23,20 @@ function PatientAppointmentsPage() {
     getData();
   }, []);
 
-  const handleAppointmentCompletion = async (appointmentId) => {
-    await axios.post(
-      "http://localhost:3000/api/appointment/update-appointment-status",
-      { appointmentId, setStatus: "completed" },
-    );
-    const response = await axios.get(
-      "http://localhost:3000/api/appointment/get-patient-appointments",
-    );
-    setAppointments(response.data);
-    const response2 = await axios.get(
-      "http://localhost:3000/api/appointment/get-appointment-history",
-    );
-    setCompletedAppointments(response2.data);
-  };
+  // const handleAppointmentCompletion = async (appointmentId) => {
+  //   await axios.post(
+  //     "http://localhost:3000/api/appointment/update-appointment-status",
+  //     { appointmentId, setStatus: "completed" },
+  //   );
+  //   const response = await axios.get(
+  //     "http://localhost:3000/api/appointment/get-patient-appointments",
+  //   );
+  //   setAppointments(response.data);
+  //   const response2 = await axios.get(
+  //     "http://localhost:3000/api/appointment/get-appointment-history",
+  //   );
+  //   setCompletedAppointments(response2.data);
+  // };
 
   return (
     <div>
@@ -50,18 +50,20 @@ function PatientAppointmentsPage() {
             <tr>
               <th>Sno</th>
               <th>Date</th>
-              <th>Time</th>
+              <th>Time Slot</th>
               <th>Doctor</th>
               <th>Status</th>
+              <th>Fee Paid</th>
             </tr>
             {appointments.map((appointment) => (
               <tr key={appointment._id}>
                 <td>{appointments.indexOf(appointment) + 1}.</td>
                 <td>{appointment.appointmentDate}</td>
                 <td>{appointment.appointmentTime}</td>
-                <td>{appointment.doctorId.name}</td>
+                <td><Link to={`/doctor-description/${appointment.doctorId._id}`}>{appointment.doctorId.name} </Link></td>
                 <td>
-                  <div className="flex align-center text-xs">
+                  {appointment.status}
+                  {/* <div className="flex align-center text-xs">
                     <label htmlFor="status">mark as done</label>
                     <input
                       onChange={() =>
@@ -71,7 +73,10 @@ function PatientAppointmentsPage() {
                       id="status"
                       type="checkbox"
                     />
-                  </div>
+                  </div> */}
+                </td>
+                <td>
+                  ₹{appointment.doctorId.fee}/-
                 </td>
               </tr>
             ))}
@@ -87,9 +92,10 @@ function PatientAppointmentsPage() {
             <tr>
               <th>Sno</th>
               <th>Date</th>
-              <th>Time</th>
+              <th>Time Slot</th>
               <th>Doctor</th>
               <th>Status</th>
+              <th>Fee Paid</th>
             </tr>
             {completedAppointments.map((appointment) => (
               <tr key={appointment._id}>
@@ -97,7 +103,8 @@ function PatientAppointmentsPage() {
                 <td>{appointment.appointmentDate}</td>
                 <td>{appointment.appointmentTime}</td>
                 <td><Link to={`/doctor-description/${appointment.doctorId._id}`}>{appointment.doctorId.name}</Link></td>
-                <td>{appointment.appointmentStatus}</td>
+                <td>{appointment.status}</td>
+                <td>₹{appointment.doctorId.fee}/-</td>
               </tr>
             ))}
           </tbody>
