@@ -105,8 +105,56 @@ export const updateUserData = async (req, res) => {
   } catch (error) {
     console.log(error);
     return res.status(500).json({
-      success: false,
       message: error.message,
+    });
+  }
+};
+
+export const changeUserPassword = async (req, res) => {
+  const { oldPassword, newPassword } = req.body;
+  const user = jwt.verify(req.cookies.token, process.env.JWT_SECRET);
+  let userData;
+  try {
+    if (user.role == "patient") {
+      userData = await patientModel.findById(user.userId);
+      if (oldPassword == userData.password) {
+        if (oldPassword != newPassword) {
+          await patientModel.findByIdAndUpdate(user.userId, {
+            password: newPassword,
+          });
+          return res.status(200).json({
+            success: true,
+            message: "password changed successfully!",
+          });
+        }
+      } else {
+        return res.json({
+          success: false,
+          message: "incorrect password!",
+        });
+      }
+    } else if (user.role == "doctor") {
+      userData = await doctorModel.findById(user.userId);
+      if (oldPassword == userData.password) {
+        if (oldPassword != newPassword) {
+          await doctorModel.findByIdAndUpdate(user.userId, {
+            password: newPassword,
+          });
+          return res.status(200).json({
+            success: true,
+            message: "password changed successfully!",
+          });
+        }
+      } else {
+        return res.json({
+          success: false,
+          message: "incorrect password!",
+        });
+      }
+    }
+  } catch (error) {
+    return res.json({
+      message: error,
     });
   }
 };
