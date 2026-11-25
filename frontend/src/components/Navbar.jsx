@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Navbar() {
   const [loginOptions, setLoginOptions] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
+  const navigate = useNavigate();
   // const [loggedIn, setLoggedIn] = useState(false);
   // const profileHandle
   const handleLogout = async () => {
@@ -16,6 +17,7 @@ function Navbar() {
         setLoggedIn(false);
         console.log("logged out successfully!")
         console.log(response.data)
+        navigate('/')
       } else {
         console.log("ERROR: logout failed!");
       }
@@ -44,9 +46,8 @@ function Navbar() {
   }, []);
   return (
     <div className="bg-blue-400 flex justify-between px-4 py-2 items-center fixed w-full top-0">
-      <Link to="/" onClick={handleLogout}>
-        <img src="doorcare-logo.png" width="100px" className="rounded-md" />
-      </Link>
+      
+      <img onClick={handleLogout} src="/doorcare-logo.png" width="100px" className="rounded-md hover:cursor-pointer" />
       {loggedIn ? (
         <Link to={"/profile-page"}>
           <div

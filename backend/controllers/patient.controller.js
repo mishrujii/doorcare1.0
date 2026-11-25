@@ -67,7 +67,7 @@ export const fetchPatientsList = async (req, res) => {
 export const createDoctorReview = async (req, res) => {
   const { doctor, reviewText, reviewRating } = req.body;
   const patient = req.user.userId;
-  console.log(doctor, patient);
+  // console.log(doctor, patient);
   const review = await reviewModel.create({
     reviewText,
     reviewRating,
@@ -78,12 +78,12 @@ export const createDoctorReview = async (req, res) => {
 };
 
 export const fetchDoctorReviews = async (req, res) => {
-  console.log("controller reached");
+  // console.log("controller reached");
   const doctor = req.params.doctorId;
-  console.log("doctorId: ", doctor);
+  // console.log("doctorId: ", doctor);
   try {
     const reviews = await reviewModel.find({ doctor }).populate("patient");
-    console.log(reviews.length);
+    // console.log(reviews.length);
     return res.status(200).send(reviews);
   } catch (error) {
     console.log(error);

@@ -1,10 +1,14 @@
+import Navbar from "../components/Navbar";
 import SignupCard from "./SignupCard";
 
 function DoctorSignup() {
   return (
-    <div className="flex justify-center items-center h-screen">
-      <SignupCard user="doctor" />
-    </div>
+    <>
+      <Navbar/>
+      <div className="flex justify-center items-center h-screen mt-14">
+        <SignupCard user="doctor" />
+      </div>
+    </>
   );
 }
 

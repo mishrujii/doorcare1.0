@@ -1,10 +1,12 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Navbar from "../../components/Navbar";
 import { useEffect } from "react";
 import axios from "axios";
 import { useState } from "react";
 
 function DoctorDescriptionPage() {
+  const navigate = useNavigate();
+
   const handleInput = (e) => {
     e.target.style.height = "auto";
     e.target.style.height = `${e.target.scrollHeight}px`;
@@ -21,7 +23,7 @@ function DoctorDescriptionPage() {
     fee: 0,
   });
 
-  const [doctorReviews, setDoctorReviews] = useState([])
+  const [doctorReviews, setDoctorReviews] = useState([]);
 
   const [appointmentData, setAppointmentData] = useState(null);
   // const [submitted, setSubmitted] = useState(false)
@@ -36,23 +38,22 @@ function DoctorDescriptionPage() {
         const appointmentResponse = await axios.get(
           `http://localhost:3000/api/appointment/get-patient-appointment/${doctorId}`,
         );
-        console.log("data:", appointmentResponse.data);
-        if (appointmentResponse.data)
+        // console.log("data:", appointmentResponse.data);
+        if (appointmentResponse)
           setAppointmentData(appointmentResponse.data);
         else setAppointmentData(null);
       } catch (error) {
         console.log(error);
       }
-      try{
-        console.log("loaded")
+      try {
+        console.log("loaded");
         const reviewResponse = await axios.get(
           `http://localhost:3000/api/patient/get-doctor-reviews/${doctorId}`,
-        )
-        console.log(reviewResponse.data)
-        setDoctorReviews(reviewResponse.data)
-
-      }catch(error){
-        console.log(error)
+        );
+        // console.log(reviewResponse.data)
+        setDoctorReviews(reviewResponse.data);
+      } catch (error) {
+        console.log(error);
       }
     }
     getDoctorData();
@@ -67,7 +68,7 @@ function DoctorDescriptionPage() {
       doctorId,
     };
 
-    console.log(data);
+    // console.log(data);
     try {
       await axios.post(
         "http://localhost:3000/api/appointment/create-appointment",
@@ -82,13 +83,14 @@ function DoctorDescriptionPage() {
       const appointmentResponse = await axios.get(
         `http://localhost:3000/api/appointment/get-patient-appointment/${doctorId}`,
       );
-      console.log(appointmentResponse.data);
+      // console.log(appointmentResponse.data);
       if (appointmentResponse.data)
         setAppointmentData(appointmentResponse.data);
       else setAppointmentData(null);
     } catch (error) {
       console.log(error);
     }
+    navigate(0);
   }
 
   const today = new Date();
@@ -112,28 +114,25 @@ function DoctorDescriptionPage() {
 
   async function handleReviewSubmit(e) {
     e.preventDefault();
-    const reviewText = e.target.reviewText.value
-    const reviewRating = e.target.reviewRating.value
-    try{
-      await axios.post("http://localhost:3000/api/patient/patient-review",
-        {
-          reviewText,
-          reviewRating,
-          doctor: doctorId
-        }
-      )
-      setViewReviewForm(false)
-      alert("reivew submitted successfully!")
-    }catch(error){
-      console.log(error)
-      alert("review submission failed!")
+    const reviewText = e.target.reviewText.value;
+    const reviewRating = e.target.reviewRating.value;
+    try {
+      await axios.post("http://localhost:3000/api/patient/patient-review", {
+        reviewText,
+        reviewRating,
+        doctor: doctorId,
+      });
+      setViewReviewForm(false);
+      alert("reivew submitted successfully!");
+    } catch (error) {
+      console.log(error);
+      alert("review submission failed!");
     }
-    
   }
 
   return (
     <div>
-      <Navbar/>
+      <Navbar />
       <div className="mt-16 ml-10 flex">
         <div className="p-4 rounded-xl border-gray-400 flex border w-fit">
           <img
@@ -147,10 +146,11 @@ function DoctorDescriptionPage() {
               <b>Name: </b> {doctorData.name}
             </p>
             <h2>
-              <b>Specialization:</b> {doctorData.specialization}
+              <b>Specialization: </b> {doctorData.specialization}
             </h2>
             <h2>
-              gender
+              <b>Gender: </b>
+              {doctorData.gender}
             </h2>
             <h2>
               <b>Experience:</b> {doctorData.experience} Years
@@ -171,82 +171,23 @@ function DoctorDescriptionPage() {
             Appointment {appointmentData ? "Details" : "Form"}
           </h1>
           {appointmentData ? (
-            appointmentData.status === "completed" ? (
-              <form
-                className="[&_input]:border [&_input]:rounded-md [&_div]:mb-4 text-sm"
-                action=""
-                onSubmit={handleAppointmentSubmit}
-              >
-                <div>
-                  <label htmlFor="date">Date: </label>
-                  <input
-                    className="text-gray-400"
-                    min={minDate}
-                    max={maxDate}
-                    type="date"
-                    id="date"
-                    name="appointmentDate"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="time">Time: </label>
-                  <select
-                    id="time"
-                    name="appointmentTime"
-                    defaultValue=""
-                    required
-                    className="rounded-md border border-gray-300 text-xs p-1 text-gray-500"
-                  >
-                    <option value="" disabled>
-                      Select appointment time
-                    </option>
-                    <option value="09:00">9:00 AM</option>
-                    <option value="10:00">10:00 AM</option>
-                    <option value="11:00">11:00 AM</option>
-                    <option value="12:00">12:00 PM</option>
-                    <option value="13:00">01:00 PM</option>
-                    <option value="14:00">02:00 PM</option>
-                    <option value="15:00">03:00 PM</option>
-                    <option value="16:00">04:00 PM</option>
-                    <option value="17:00">05:00 PM</option>
-                  </select>
-                </div>
-                <div className="flex item-start">
-                  <label htmlFor="symptom">Symptoms: </label>
-                  <textarea
-                    onInput={handleInput}
-                    className="ml-2 p-1 border rounded-md w-60 text-xs overflow-hidden"
-                    name="appointmentConcern"
-                    id="symptom"
-                    placeholder="describe your health issue"
-                  ></textarea>
-                </div>
-                <div className="flex justify-center">
-                  <button
-                    type="submit"
-                    className="px-2 rounded-xl bg-yellow-300 hover:cursor-pointer"
-                  >
-                    Submit
-                  </button>
-                </div>
-              </form>
-            ) : (
-              <div>
-                <p>
-                  <b>Status: </b>
-                  {appointmentData.status}
-                </p>
-                <p>
-                  <b>Date: </b>
-                  {appointmentData.appointmentDate}
-                </p>
-                <p>
-                  <b>Time: </b>
-                  {appointmentData.appointmentTime}
-                </p>
-                <p>fee paid:</p>
-              </div>
-            )
+            <div>
+              <p>
+                <b>Status: </b>
+                {appointmentData.status}
+              </p>
+              <p>
+                <b>Date: </b>
+                {appointmentData.appointmentDate.split("T")[0]}
+              </p>
+              <p>
+                <b>Time Slot: </b>
+                {appointmentData.appointmentTime}
+              </p>
+              <p>
+                <b>Fee Paid: </b>₹{doctorData.fee}/-
+              </p>
+            </div>
           ) : (
             <form
               className="[&_input]:border [&_input]:rounded-md [&_div]:mb-4 text-sm"
@@ -356,24 +297,31 @@ function DoctorDescriptionPage() {
             )}
           </div>
         </div>
-        {doctorReviews.map((review)=>(
-          <div key={review._id} className="text-sm border-b flex items-center mt-2 pb-4">
-            <img src={review.patient?.profilePicture} width="30" className="rounded-full" alt="" />
+        {doctorReviews.map((review) => (
+          <div
+            key={review._id}
+            className="text-sm border-b flex items-center mt-2 pb-4"
+          >
+            <img
+              src={review.patient?.profilePicture}
+              width="30"
+              className="rounded-full"
+              alt=""
+            />
             <div className="flex flex-col ml-2">
               <div className="flex items-center">
                 <p className=" text-xs">
-                  {review.patient?.username} <span className="text-xs">(1 year ago)</span>
+                  {review.patient?.username}{" "}
+                  <span className="text-xs">(1 year ago)</span>
                 </p>
                 <img src="#" alt="" />
                 <p className="ml-2">{review.reviewRating}/5</p>
               </div>
               <div className="">
-                <p>
-                  {review.reviewText}
-                </p>
+                <p>{review.reviewText}</p>
               </div>
             </div>
-          </div>  
+          </div>
         ))}
       </div>
     </div>

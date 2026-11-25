@@ -3,24 +3,25 @@ import appointmentModel from "../models/appointment.model.js";
 export const createAppointment = async (req, res) => {
   const { doctorId, appointmentDate, appointmentTime, appointmentConcern } =
     req.body;
-  const formattedDate = new Date(
-    `${appointmentDate}T00:00:00`,
-  ).toLocaleDateString("en-IN", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-    timeZone: "Asia/Kolkata",
-  });
-  const [hours, minutes] = appointmentTime.split(":");
 
-  const formattedTime = new Date(
-    `2000-01-01T${hours}:${minutes}:00`,
-  ).toLocaleTimeString("en-IN", {
-    hour: "numeric",
-    minute: "2-digit",
-    hour12: true,
-    timeZone: "Asia/Kolkata",
-  });
+  // const formattedDate = new Date(
+  //   `${appointmentDate}T00:00:00`,
+  // ).toLocaleDateString("en-IN", {
+  //   day: "numeric",
+  //   month: "long",
+  //   year: "numeric",
+  //   timeZone: "Asia/Kolkata",
+  // });
+  // const [hours, minutes] = appointmentTime.split(":");
+
+  // const formattedTime = new Date(
+  //   `2000-01-01T${hours}:${minutes}:00`,
+  // ).toLocaleTimeString("en-IN", {
+  //   hour: "numeric",
+  //   minute: "2-digit",
+  //   hour12: true,
+  //   timeZone: "Asia/Kolkata",
+  // });
 
   const patientId = req.user.userId;
 
@@ -28,8 +29,8 @@ export const createAppointment = async (req, res) => {
     await appointmentModel.create({
       patientId,
       doctorId,
-      appointmentDate: formattedDate,
-      appointmentTime: formattedTime,
+      appointmentDate,
+      appointmentTime,
       appointmentConcern,
     });
     await appointmentModel.find({ doctorId }).populate("patientId");
@@ -38,11 +39,11 @@ export const createAppointment = async (req, res) => {
       message: "appointment submitted",
     });
   } catch (error) {
+    console.log(error);
     return res.status(404).json({
       isSubmitted: false,
       message: error,
     });
-    console.log(error);
   }
 };
 
@@ -50,10 +51,8 @@ export const patientAppointment = async (req, res) => {
   // console.log("controller reached");
   const patientId = req.user.userId;
   const doctorId = req.params.doctorId;
-  const appointment = await appointmentModel.findOne({ patientId, doctorId, status : { $ne: "completed"} });
-  // console.log(appointment);
-  if (appointment) return res.send(appointment);
-  // res.send(appointment)
+  const appointment = await appointmentModel.findOne({ patientId, doctorId, status : { $in: ["pending","approved"]} });
+  return res.send(appointment)
 };
 
 export const patientAppointments = async(req,res)=>{
@@ -87,6 +86,6 @@ export const setAppointmentStatus = async (req, res) => {
 };
 
 export const appointmentHistory = async (req,res)=>{
-  const appointments = await appointmentModel.find({status: "completed"}).populate("doctorId")
+  const appointments = await appointmentModel.find({status: {$in: ["completed","rejected"]}}).populate("doctorId")
   return res.send(appointments)
 }

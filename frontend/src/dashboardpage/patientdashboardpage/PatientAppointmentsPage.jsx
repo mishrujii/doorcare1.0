@@ -13,12 +13,28 @@ function PatientAppointmentsPage() {
       const response = await axios.get(
         "http://localhost:3000/api/appointment/get-patient-appointments",
       );
-      setAppointments(response.data);
+      console.log(response.data);
+      const sortedAppointments = [...response.data].sort(
+        (a, b) => {
+          let dateTimeA = new Date(`${a.appointmentDate.split("T")[0]}T${a.appointmentTime}`)
+          let dateTimeB = new Date(`${b.appointmentDate.split("T")[0]}T${b.appointmentTime}`)
+          return dateTimeA - dateTimeB
+        }
+      );
+      console.log(sortedAppointments);
+      setAppointments(sortedAppointments);
       const response2 = await axios.get(
         "http://localhost:3000/api/appointment/get-appointment-history",
       );
-      setCompletedAppointments(response2.data);
-      console.log(response2.data);
+      // console.log(response2.data);
+      const sortedCompletedAppointments = [...response2.data].sort(
+        (a,b)=>{
+          let dateTimeA = new Date(`${a.appointmentDate.split("T")[0]}T${a.appointmentTime}`)
+          let dateTimeB = new Date(`${b.appointmentDate.split("T")[0]}T${b.appointmentTime}`)
+          return dateTimeB - dateTimeA;
+        }
+      )
+      setCompletedAppointments(sortedCompletedAppointments);
     }
     getData();
   }, []);
@@ -40,12 +56,12 @@ function PatientAppointmentsPage() {
 
   return (
     <div>
-      <Navbar/>
+      <Navbar />
       <div className="mt-16 ml-4">
         <p className="mb-3 w-fit rounded-md px-1 bg-yellow-300">
           current appointments
         </p>
-        <table className="border [&_th]:border [&_th]:px-2 [&_td]:border [&_td]:px-2">
+        <table className="border [&_th]:border [&_th]:px-2 [&_td]:border [&_td]:px-2 [&_td]:text-center">
           <tbody>
             <tr>
               <th>Sno</th>
@@ -58,9 +74,13 @@ function PatientAppointmentsPage() {
             {appointments.map((appointment) => (
               <tr key={appointment._id}>
                 <td>{appointments.indexOf(appointment) + 1}.</td>
-                <td>{appointment.appointmentDate}</td>
+                <td>{appointment.appointmentDate?.split("T")[0]}</td>
                 <td>{appointment.appointmentTime}</td>
-                <td><Link to={`/doctor-description/${appointment.doctorId._id}`}>{appointment.doctorId.name} </Link></td>
+                <td>
+                  <Link to={`/doctor-description/${appointment.doctorId._id}`}>
+                    {appointment.doctorId.name}{" "}
+                  </Link>
+                </td>
                 <td>
                   {appointment.status}
                   {/* <div className="flex align-center text-xs">
@@ -75,9 +95,7 @@ function PatientAppointmentsPage() {
                     />
                   </div> */}
                 </td>
-                <td>
-                  ₹{appointment.doctorId.fee}/-
-                </td>
+                <td>₹{appointment.doctorId.fee}/-</td>
               </tr>
             ))}
           </tbody>
@@ -87,7 +105,7 @@ function PatientAppointmentsPage() {
         <p className="mb-3 w-fit rounded-md px-1 bg-yellow-600 mt-4">
           appointment history
         </p>
-        <table className="border [&_th]:border [&_th]:px-2 [&_td]:border [&_td]:px-2">
+        <table className="border [&_th]:border [&_th]:px-2 [&_td]:border [&_td]:px-2 [&_td]:text-center">
           <tbody>
             <tr>
               <th>Sno</th>
@@ -100,9 +118,13 @@ function PatientAppointmentsPage() {
             {completedAppointments.map((appointment) => (
               <tr key={appointment._id}>
                 <td>{completedAppointments.indexOf(appointment) + 1}.</td>
-                <td>{appointment.appointmentDate}</td>
+                <td>{appointment.appointmentDate?.split("T")[0]}</td>
                 <td>{appointment.appointmentTime}</td>
-                <td><Link to={`/doctor-description/${appointment.doctorId._id}`}>{appointment.doctorId.name}</Link></td>
+                <td>
+                  <Link to={`/doctor-description/${appointment.doctorId._id}`}>
+                    {appointment.doctorId.name}
+                  </Link>
+                </td>
                 <td>{appointment.status}</td>
                 <td>₹{appointment.doctorId.fee}/-</td>
               </tr>
