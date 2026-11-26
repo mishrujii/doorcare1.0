@@ -6,8 +6,6 @@ function Navbar() {
   const [loginOptions, setLoginOptions] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
   const navigate = useNavigate();
-  // const [loggedIn, setLoggedIn] = useState(false);
-  // const profileHandle
   const handleLogout = async () => {
     try {
       const response = await axios.post(
@@ -15,8 +13,6 @@ function Navbar() {
       );
       if (response.data.success) {
         setLoggedIn(false);
-        console.log("logged out successfully!")
-        console.log(response.data)
         navigate('/')
       } else {
         console.log("ERROR: logout failed!");
@@ -33,7 +29,6 @@ function Navbar() {
         );
         console.log(response.data)
         if (response.data.success) {
-          console.log("logged in set true")
           setLoggedIn(true);
         } else {
           setLoggedIn(false);

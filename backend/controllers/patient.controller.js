@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 import patientModel from "../models/patient.model.js";
 import uploadToCloudinary from "../services/cloud.js";
 import reviewModel from "../models/review.model.js";
+import doctorModel from "../models/doctor.model.js";
 
 export const patientSignup = async (req, res) => {
   const { name, username, email, DOB, password, contact, address } = req.body;
@@ -93,3 +94,22 @@ export const fetchDoctorReviews = async (req, res) => {
     });
   }
 };
+
+export const updateDoctorRating = async (req,res) => {
+  const doctor = await doctorModel.findById(req.params.doctorId)
+  if(doctor == null) return res.json({
+    message: "doctor not found!"
+  })
+  const allRatings = await reviewModel.find({doctor: doctor._id})
+  const len = allRatings.length
+  if(len === 0) return res.json({
+    message: "no reviews found"
+  })
+  const avgRating = allRatings.reduce((sum, review) => sum + review.reviewRating, 0) /  allRatings.length;
+  await doctorModel.findByIdAndUpdate(doctor._id,{
+    rating: avgRating
+  })
+  return res.status(200).json({
+    message: "rating upated successfully!"
+  })
+}

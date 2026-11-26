@@ -16,6 +16,11 @@ const reviewSchema = new mongoose.Schema({
     reviewRating:{
         type: Number,
         required: true
+    },  
+    reviewTime: {
+        type: Date,
+        default: Date.now,
+        required: true
     }
 })
 

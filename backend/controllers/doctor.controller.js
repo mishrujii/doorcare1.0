@@ -1,4 +1,5 @@
 import doctorModel from "../models/doctor.model.js";
+import reviewModel from "../models/review.model.js";
 import uploadToCloudinary from "../services/cloud.js";
 import jwt from 'jsonwebtoken'
 
@@ -89,3 +90,4 @@ export const fetchDoctor = async (req, res) => {
   // console.log(doctor)
   return res.status(200).json(doctor);
 };
+

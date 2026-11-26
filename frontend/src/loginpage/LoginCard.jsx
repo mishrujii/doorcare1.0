@@ -9,14 +9,14 @@ function LoginCard({ user }) {
     const username = e.currentTarget.username.value;
     const password = e.currentTarget.password.value;
     try {
-      const response = await axios.post(
+      await axios.post(
         user === "patient"
           ? "http://localhost:3000/api/patient/login"
           : user==="doctor"? 
               "http://localhost:3000/api/doctor/login": user=="admin" && "http://localhost:3000/api/admin/login",
         { username, password }
       );
-      console.log(response.data);
+      // console.log(response.data);
       // alert("login successful!")
       if (user === "patient") navigate("/patient-dashboard");
       else if (user === "doctor") navigate("/doctor-dashboard");

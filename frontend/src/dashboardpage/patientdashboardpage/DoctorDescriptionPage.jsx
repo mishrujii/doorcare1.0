@@ -26,7 +26,6 @@ function DoctorDescriptionPage() {
   const [doctorReviews, setDoctorReviews] = useState([]);
 
   const [appointmentData, setAppointmentData] = useState(null);
-  // const [submitted, setSubmitted] = useState(false)
 
   useEffect(() => {
     async function getDoctorData() {
@@ -38,19 +37,15 @@ function DoctorDescriptionPage() {
         const appointmentResponse = await axios.get(
           `http://localhost:3000/api/appointment/get-patient-appointment/${doctorId}`,
         );
-        // console.log("data:", appointmentResponse.data);
-        if (appointmentResponse)
-          setAppointmentData(appointmentResponse.data);
+        if (appointmentResponse) setAppointmentData(appointmentResponse.data);
         else setAppointmentData(null);
       } catch (error) {
         console.log(error);
       }
       try {
-        console.log("loaded");
         const reviewResponse = await axios.get(
           `http://localhost:3000/api/patient/get-doctor-reviews/${doctorId}`,
         );
-        // console.log(reviewResponse.data)
         setDoctorReviews(reviewResponse.data);
       } catch (error) {
         console.log(error);
@@ -68,7 +63,6 @@ function DoctorDescriptionPage() {
       doctorId,
     };
 
-    // console.log(data);
     try {
       await axios.post(
         "http://localhost:3000/api/appointment/create-appointment",
@@ -122,13 +116,37 @@ function DoctorDescriptionPage() {
         reviewRating,
         doctor: doctorId,
       });
+      await axios.post(
+        `http://localhost:3000/api/patient/update-doctor-rating/${doctorId}`,
+      );
       setViewReviewForm(false);
       alert("reivew submitted successfully!");
+      navigate(0);
     } catch (error) {
       console.log(error);
       alert("review submission failed!");
     }
   }
+
+  const getReviewTime = (reviewTime) => {
+    const reviewDate = new Date(reviewTime);
+    const currentDate = new Date();
+    const diff = currentDate - reviewDate;
+    const seconds = Math.floor(diff / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+    const weeks = Math.floor(days / 7);
+    const months = Math.floor(days / 30);
+    const years = Math.floor(days / 365);
+    if (seconds < 60) return `${seconds} sec ago`;
+    if (minutes < 60) return `${minutes} min ago`;
+    if (hours < 24) return `${hours} hr ago`;
+    if (days < 7) return `${days} day ago`;
+    if (7 <= days < 30) return `${weeks} week ago`;
+    if (30 <= days < 365) return `${months} month ago`;
+    return `${years} yr ago`;
+  };
 
   return (
     <div>
@@ -312,7 +330,9 @@ function DoctorDescriptionPage() {
               <div className="flex items-center">
                 <p className=" text-xs">
                   {review.patient?.username}{" "}
-                  <span className="text-xs">(1 year ago)</span>
+                  <span className="text-xs">
+                    ({getReviewTime(review.reviewTime)})
+                  </span>
                 </p>
                 <img src="#" alt="" />
                 <p className="ml-2">{review.reviewRating}/5</p>

@@ -6,6 +6,7 @@ import {
   fetchPatientsList,
   createDoctorReview,
   fetchDoctorReviews,
+  updateDoctorRating,
 } from "../controllers/patient.controller.js";
 import authenticate from "../middleware/auth.js";
 
@@ -20,6 +21,7 @@ patientRouter.post("/login", patientLogin);
 patientRouter.get("/patients-list", authenticate, fetchPatientsList);
 patientRouter.post('/patient-review',authenticate, createDoctorReview)
 patientRouter.get('/get-doctor-reviews/:doctorId',authenticate, fetchDoctorReviews)
+patientRouter.post('/update-doctor-rating/:doctorId',authenticate,updateDoctorRating)
 
 
 export default patientRouter;
