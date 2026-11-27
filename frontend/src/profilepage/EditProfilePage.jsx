@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from 'axios';
+import axios from "axios";
 import Navbar from "../components/Navbar";
 import { useNavigate } from "react-router-dom";
 
@@ -7,28 +7,25 @@ function EditProfilePage() {
   const [user, setUser] = useState([]);
   const navigate = useNavigate();
 
-  const handleSubmit = async (e)=>{
-    e.preventDefault()
-    const data = new FormData(e.target)
-    try{
-      await axios.post(
-        "http://localhost:3000/api/auth/update-user-data",
-        data
-      )
-      alert("profile updated successfully!")
-      console.log("profile updated successfully!")
-      navigate("/profile-page")
-    }catch(error){
-      console.log(error)
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const data = new FormData(e.target);
+    try {
+      await axios.post("http://localhost:3000/api/auth/update-user-data", data);
+      alert("profile updated successfully!");
+      console.log("profile updated successfully!");
+      navigate("/profile-page");
+    } catch (error) {
+      console.log(error);
     }
-  }
+  };
 
   useEffect(() => {
     async function getData() {
       const response = await axios.get(
-        "http://localhost:3000/api/auth/get-user-data"
+        "http://localhost:3000/api/auth/get-user-data",
       );
-      console.log(response.data.user)
+      console.log(response.data.user);
       setUser(response.data.user);
     }
     getData();
@@ -43,7 +40,12 @@ function EditProfilePage() {
           action=""
         >
           <div>
-            <img className="rounded-full m-auto" src={user.profilePicture} width="100" alt="" />
+            <img
+              className="rounded-full m-auto"
+              src={user.profilePicture}
+              width="100"
+              alt=""
+            />
             <label htmlFor="dp">Profile Pic: </label>
             <input
               defaultValue={user.profilePicture}
@@ -65,37 +67,46 @@ function EditProfilePage() {
               name="username"
             />
           </div>
-          <div>
-            <label htmlFor="email">Email: </label>
-            <input
-              defaultValue={user.email}
-              type="email"
-              id="email"
-              name="email"
-            />
-          </div>
-          <div>
-            <label htmlFor="contact">Contact: </label>
-            <input
-              defaultValue={user.contact}
-              type="number"
-              id="contact"
-              name="contact"
-            />
-          </div>
-          <div>
-            <label htmlFor="DOB">DOB: </label>
-            <input defaultValue={user.DOB?.split("T")[0]} type="date" id="DOB" name="DOB" />
-          </div>
-          <div>
-            <label htmlFor="address">Address: </label>
-            <input
-              defaultValue={user.address}
-              type="text"
-              id="address"
-              name="address"
-            />
-          </div>
+          {user.role !== "Admin" && (
+            <>
+              <div>
+                <label htmlFor="email">Email: </label>
+                <input
+                  defaultValue={user.email}
+                  type="email"
+                  id="email"
+                  name="email"
+                />
+              </div>
+              <div>
+                <label htmlFor="contact">Contact: </label>
+                <input
+                  defaultValue={user.contact}
+                  type="number"
+                  id="contact"
+                  name="contact"
+                />
+              </div>
+              <div>
+                <label htmlFor="DOB">DOB: </label>
+                <input
+                  defaultValue={user.DOB?.split("T")[0]}
+                  type="date"
+                  id="DOB"
+                  name="DOB"
+                />
+              </div>
+              <div>
+                <label htmlFor="address">Address: </label>
+                <input
+                  defaultValue={user.address}
+                  type="text"
+                  id="address"
+                  name="address"
+                />
+              </div>
+            </>
+          )}
           <button
             type="submit"
             className="hover:cursor-pointer mt-2 rounded-xl px-2 bg-blue-400 m-auto"

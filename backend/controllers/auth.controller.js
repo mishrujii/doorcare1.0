@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import patientModel from "../models/patient.model.js";
 import doctorModel from "../models/doctor.model.js";
+import adminSettingsModel from "../models/admin.model.js";
 import uploadToCloudinary from "../services/cloud.js";
 
 export const logoutUser = (req, res) => {
@@ -40,8 +41,8 @@ export const checkLogin = (req, res) => {
 };
 
 export const getUserData = async (req, res) => {
-  const user = jwt.verify(req.cookies.token, process.env.JWT_SECRET);
   try {
+    const user = jwt.verify(req.cookies.token, process.env.JWT_SECRET);
     if (user.role == "patient") {
       const data = await patientModel.findById(user.userId);
       console.log(data);
@@ -49,18 +50,47 @@ export const getUserData = async (req, res) => {
         user: data,
       });
     } else if (user.role == "doctor") {
+      const data = await doctorModel.findById(user.userId);
       return res.status(200).json({
-        user: await doctorModel.findById(user.userId),
+        user: data,
+      });
+    } else if (user.role == "admin") {
+      const data = await adminSettingsModel.findOne();
+      return res.status(200).json({
+        user: data,
       });
     }
   } catch (error) {
     console.log(error);
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
   }
 };
 
 export const updateUserData = async (req, res) => {
   try {
     const user = jwt.verify(req.cookies.token, process.env.JWT_SECRET);
+    if (user.role == "admin") {
+      const { name, username } = req.body;
+      const userData = await adminSettingsModel.findOne();
+      let profilePicture = userData.profilePicture;
+      if (req.file) {
+        const image = await uploadToCloudinary(req.file);
+        profilePicture = image.secure_url;
+      }
+      await adminSettingsModel.findByIdAndUpdate(userData._id, {
+        name,
+        username,
+        profilePicture,
+      });
+      console.log("profile updated successfully!");
+      return res.status(200).json({
+        success: true,
+        message: "Profile updated successfully!",
+      });
+    }
     const { name, username, email, DOB, contact, address } = req.body;
     if (user.role == "patient") {
       const userData = await patientModel.findById(user.userId);
@@ -78,6 +108,11 @@ export const updateUserData = async (req, res) => {
         contact,
         address,
       });
+      console.log("profile updated successfully!");
+      return res.status(200).json({
+        success: true,
+        message: "Profile updated successfully!",
+      });
     } else if (user.role == "doctor") {
       const userData = await doctorModel.findById(user.userId);
       let profilePicture = userData.profilePicture;
@@ -94,12 +129,12 @@ export const updateUserData = async (req, res) => {
         contact,
         address,
       });
+      console.log("profile updated successfully!");
+      return res.status(200).json({
+        success: true,
+        message: "Profile updated successfully!",
+      });
     }
-    console.log("profile updated successfully!");
-    return res.status(200).json({
-      success: true,
-      message: "Profile updated successfully!",
-    });
   } catch (error) {
     console.log(error);
     return res.status(500).json({
@@ -109,10 +144,10 @@ export const updateUserData = async (req, res) => {
 };
 
 export const changeUserPassword = async (req, res) => {
-  const { oldPassword, newPassword } = req.body;
-  const user = jwt.verify(req.cookies.token, process.env.JWT_SECRET);
-  let userData;
   try {
+    const { oldPassword, newPassword } = req.body;
+    const user = jwt.verify(req.cookies.token, process.env.JWT_SECRET);
+    let userData;
     if (user.role == "patient") {
       userData = await patientModel.findById(user.userId);
       if (oldPassword == userData.password) {
@@ -141,6 +176,29 @@ export const changeUserPassword = async (req, res) => {
           return res.status(200).json({
             success: true,
             message: "password changed successfully!",
+          });
+        }
+      } else {
+        return res.json({
+          success: false,
+          message: "incorrect password!",
+        });
+      }
+    } else if (user.role == "admin") {
+      userData = await adminSettingsModel.findById(user.userId);
+      if (oldPassword == userData.password) {
+        if (oldPassword != newPassword) {
+          await adminSettingsModel.findByIdAndUpdate(user.userId, {
+            password: newPassword,
+          });
+          return res.status(200).json({
+            success: true,
+            message: "password changed successfully!",
+          });
+        } else {
+          return res.status(400).json({
+            success: false,
+            message: "New password must be different",
           });
         }
       } else {

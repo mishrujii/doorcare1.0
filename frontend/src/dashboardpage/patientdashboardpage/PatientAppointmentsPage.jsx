@@ -57,7 +57,7 @@ function PatientAppointmentsPage() {
   return (
     <div>
       <Navbar />
-      <div className="mt-16 ml-4">
+      <div className="mt-16 ml-4 flex flex-col items-center">
         <p className="mb-3 w-fit rounded-md px-1 bg-yellow-300">
           current appointments
         </p>
@@ -101,7 +101,7 @@ function PatientAppointmentsPage() {
           </tbody>
         </table>
       </div>
-      <div className="ml-4">
+      <div className="ml-4 flex flex-col items-center">
         <p className="mb-3 w-fit rounded-md px-1 bg-yellow-600 mt-4">
           appointment history
         </p>

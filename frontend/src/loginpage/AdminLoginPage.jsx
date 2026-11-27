@@ -1,10 +1,14 @@
+import Navbar from "../components/Navbar";
 import LoginCard from "./LoginCard";
 
 function AdminLoginPage() {
   return (
-    <div className="flex h-screen justify-center items-center">
-      <LoginCard user="admin"/>
-    </div>
+    <>
+      <Navbar />
+      <div className="flex h-screen justify-center items-center">
+        <LoginCard user="admin" />
+      </div>
+    </>
   );
 }
 

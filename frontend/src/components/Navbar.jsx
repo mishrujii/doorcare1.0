@@ -43,7 +43,7 @@ function Navbar() {
     <div className="bg-blue-400 flex justify-between px-4 py-2 items-center fixed w-full top-0">
       
       <img onClick={handleLogout} src="/doorcare-logo.png" width="100px" className="rounded-md hover:cursor-pointer" />
-      {loggedIn ? (
+      {loggedIn ? ( 
         <Link to={"/profile-page"}>
           <div
             // onClick={profileHandler}

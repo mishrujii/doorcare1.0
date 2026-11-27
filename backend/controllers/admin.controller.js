@@ -1,12 +1,14 @@
 import jwt from 'jsonwebtoken'
+import adminSettingsModel from '../models/admin.model.js';
 
 export const adminLogin = async (req, res) => {
   const { username, password } = req.body;
-  if (username === process.env.ADMIN_USERNAME) {
-    if (password === process.env.ADMIN_PASSWORD) {
+  const admin = await adminSettingsModel.findOne()
+  if (username == admin.username) {
+    if (password == admin.password) {
       const token = jwt.sign(
         {
-          userId: process.env.ADMIN_ID,
+          userId: admin._id,
           role: "admin",
         },
         process.env.JWT_SECRET,

@@ -65,7 +65,7 @@ export const doctorsAppointmentsList = async (req, res) => {
   const doctorId = req.user.userId;
   const appointments = await appointmentModel
     .find({ doctorId })
-    .populate("patientId", "name address contact");
+    .populate("patientId", "name address contact DOB gender");
 
   return res.status(200).json(appointments);
 };

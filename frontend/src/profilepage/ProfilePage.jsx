@@ -25,10 +25,10 @@ function ProfilePage() {
         <div><b>Name:</b> {user.name}</div>
         <div><b>Username:</b> {user.username}</div>
         <div><b>Role: </b> {user.role}</div>
-        <div><b>Email:</b> {user.email}</div>
+      {user.role !== "Admin" && (<>  <div><b>Email:</b> {user.email}</div>
         <div><b>Contact:</b> {user.contact}</div>
         <div><b>DOB:</b> {user.DOB?.split("T")[0]}</div>
-        <div><b>Address:</b> {user.address}</div>
+        <div><b>Address:</b> {user.address}</div> </>)}
         <div className="m-auto flex flex-col items-center ">
           <Link to='/edit-profile'>
           <button
@@ -37,7 +37,7 @@ function ProfilePage() {
             edit profile
           </button>
           </Link>
-          <Link to={'/edit-password'}>
+          <Link to='/edit-password'>
           <button
             className="hover:cursor-pointer mt-2 rounded-xl px-2 bg-blue-400 m-auto"
           >
